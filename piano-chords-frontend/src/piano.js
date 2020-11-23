@@ -36,10 +36,10 @@ function createVisual() {
         let key = document.createElement('div')
         key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${codeNotes[i][0]}`)
         if (codeNotes[i][0].length === 2) {
-            key.setAttribute("class", "black_key")
+            key.setAttribute("class", "key black")
         }
         else {
-            key.setAttribute("class", "white_key")
+            key.setAttribute("class", "key white")
         }
         pianoElement.appendChild(key)
         keys.push(key)
@@ -81,3 +81,5 @@ function uniqueKeyCode(event) {
     document.getElementById("demo2").innerText = `The event.keycode is: ${key}`
     playPiano(key.toString());
 }
+
+createVisual();
