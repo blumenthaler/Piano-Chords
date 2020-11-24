@@ -1,29 +1,29 @@
 const codeNotes = [
-    ["C", 3, 81],
-    ["C#", 3, 50],
-    ["D", 3, 87],
-    ["D#", 3, 51],
-    ["E", 3, 69],
-    ["F", 3, 82],
-    ["F#", 3, 53],
-    ["G", 3, 84],
-    ["G#", 3, 54],
-    ["A", 3, 89],
-    ["A#", 3, 55],
-    ["B", 3, 85],
-    ["C", 4, 73],
-    ["C#", 4, 57],
-    ["D", 4, 79],
-    ["D#", 4, 48],
-    ["E", 4, 80],
-    ["F", 4, 90],
-    ["F#", 4, 83],
-    ["G", 4, 88],
-    ["G#", 4, 68],
-    ["A", 4, 67],
-    ["A#", 4, 70],
-    ["B", 4, 86],
-    ["C", 5, 66]
+    ["C", 3, 81, "Q"],
+    ["C#", 3, 50, "2"],
+    ["D", 3, 87, "W"],
+    ["D#", 3, 51, "3"],
+    ["E", 3, 69, "E"],
+    ["F", 3, 82, "R"],
+    ["F#", 3, 53, "5"],
+    ["G", 3, 84, "T"],
+    ["G#", 3, 54, "6"],
+    ["A", 3, 89, "Y"],
+    ["A#", 3, 55, "7"],
+    ["B", 3, 85, "U"],
+    ["C", 4, 73, "I"],
+    ["C#", 4, 57, "9"],
+    ["D", 4, 79, "O"],
+    ["D#", 4, 48, "0"],
+    ["E", 4, 80, "P"],
+    ["F", 4, 90, "Z"],
+    ["F#", 4, 83, "S"],
+    ["G", 4, 88, "X"],
+    ["G#", 4, 68, "D"],
+    ["A", 4, 67, "C"],
+    ["A#", 4, 70, "F"],
+    ["B", 4, 86, "V"],
+    ["C", 5, 66, "B"]
 ]
 
 let keysPressed = [];
@@ -63,12 +63,18 @@ function createVisual() {
     let keys = []
     for (i = 0; i < codeNotes.length; i++) {
         let key = document.createElement('div')
+        let label = document.createElement('label')
+        label.innerText = codeNotes[i][3]
+        key.appendChild(label)
         key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${codeNotes[i][0]}`)
+        label.setAttribute('for', `${key.id}`)
         if (codeNotes[i][0].length === 2) {
             key.setAttribute("class", "key black")
+            label.className = "blackLabel"
         }
         else {
             key.setAttribute("class", "key white")
+            label.className = "whiteLabel"
         }
         key.addEventListener("mouseover", function(event) {   
             event.target.style.backgroundColor = "#FFBF46";
@@ -91,7 +97,7 @@ function createVisual() {
 
 function playPianoFromKey(keycode) {
     keysPressed.push(keycode);
-    
+
     console.log(keysPressed);
     _audioSynth.setVolume(0.5);
     let piano = _audioSynth.createInstrument('piano');
