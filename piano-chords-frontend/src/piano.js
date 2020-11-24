@@ -99,7 +99,7 @@ function playPianoFromKey(keycode) {
     keysPressed.push(keycode);
 
     console.log(keysPressed);
-    _audioSynth.setVolume(0.5);
+    _audioSynth.setVolume(0.3);
     let piano = _audioSynth.createInstrument('piano');
     let note = codeNotes.find(element => element[2] == keycode)
     // need to figure out how to update duration
@@ -107,7 +107,7 @@ function playPianoFromKey(keycode) {
 }
 
 function playPianoFromClick(element){
-    _audioSynth.setVolume(0.5)
+    _audioSynth.setVolume(0.3)
     let piano = _audioSynth.createInstrument('piano');
     let keys = pianoElement.childNodes
     let key = findKeyFromArray(keys, element.id)
