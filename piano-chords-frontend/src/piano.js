@@ -35,7 +35,7 @@ function uniqueKeyCode(event) {
     let keyEls = event.target.children[2].children[0].children
     let find = codeNotes.find(element => element[2] === code)
     let element = findKeyElementFromCodeNotes(find, keyEls);
-    element.style.backgroundColor = "orange";
+    element.style.backgroundColor = "#FFBF46";
     setTimeout(function() {
         if (element.className === "key white") {
             element.style.backgroundColor = "white";
@@ -71,7 +71,7 @@ function createVisual() {
             key.setAttribute("class", "key white")
         }
         key.addEventListener("mouseover", function(event) {   
-            event.target.style.backgroundColor = "orange";
+            event.target.style.backgroundColor = "#FFBF46";
         })
         key.addEventListener("mouseout", function(event) {
             if (key.className === "key white") {
@@ -91,6 +91,7 @@ function createVisual() {
 
 function playPianoFromKey(keycode) {
     keysPressed.push(keycode);
+    
     console.log(keysPressed);
     _audioSynth.setVolume(0.5);
     let piano = _audioSynth.createInstrument('piano');
