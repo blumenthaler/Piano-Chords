@@ -30,6 +30,12 @@ let keysPressed = [];
 let _audioSynth = new AudioSynth();
 let pianoElement = document.getElementById("keyboard");
 
+function uniqueKeyCode(event) {
+    let key = event.keyCode || event.which;
+    document.getElementById("demo2").innerText = `The event.keycode is: ${key}`
+    playPiano(key.toString());
+}
+
 function createVisual() {
     let keys = []
     for (i = 0; i < codeNotes.length; i++) {
@@ -41,10 +47,23 @@ function createVisual() {
         else {
             key.setAttribute("class", "key white")
         }
+        // add event listener for each key
+        key.addEventListener("mouseover", function(event) {   
+            event.target.style.backgroundColor = "orange";
+        })
+        key.addEventListener("mouseout", function(event) {
+            if (key.className === "key white") {
+                event.target.style.backgroundColor = "white";
+            }
+            else {
+                event.target.style.backgroundColor = "black";
+            }
+        })
+        // console.log(key)
         pianoElement.appendChild(key)
         keys.push(key)
     };
-    console.log(keys)
+    // console.log(keys)
 }
 
 function playPiano(keycode) {
@@ -58,10 +77,6 @@ function playPiano(keycode) {
     piano.play(note[0], note[1], 2);
 }
 
-function uniqueKeyCode(event) {
-    let key = event.keyCode || event.which;
-    document.getElementById("demo2").innerText = `The event.keycode is: ${key}`
-    playPiano(key.toString());
-}
+
 
 createVisual();
