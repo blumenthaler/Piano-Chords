@@ -43,7 +43,7 @@ function uniqueKeyCode(event) {
         else {
             element.style.backgroundColor = "black";
         }
-    }, 1000)
+    }, 500)
     document.getElementById("demo2").innerText = `The event.keycode is: ${code}`
     playPianoFromKey(code.toString());
 }
@@ -100,6 +100,7 @@ function playPianoFromKey(keycode) {
 }
 
 function playPianoFromClick(element){
+    _audioSynth.setVolume(0.5)
     let piano = _audioSynth.createInstrument('piano');
     let keys = pianoElement.childNodes
     let key = findKeyFromArray(keys, element.id)
