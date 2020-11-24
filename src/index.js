@@ -9,6 +9,19 @@ fetch(`${BACKEND_URL}/chords`)
 
 function createChordsFromJson(data) {
     let div = document.createElement('div')
+    div.className = "chord"
     let id = data.id
-    console.log(id)
+    let name = data.attributes.name
+    let structure = data.attributes.structure
+    let symbols = data.attributes.symbols
+    let chord = new Chord(name, structure, symbols)
+    console.log(chord)
 } 
+
+class Chord {
+    constructor(name, structure, symbols) {
+        this.name = name;
+        this.structure = structure;
+        this.symbols = symbols;
+    }
+}
