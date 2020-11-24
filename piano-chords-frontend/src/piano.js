@@ -31,10 +31,33 @@ let _audioSynth = new AudioSynth();
 let pianoElement = document.getElementById("keyboard");
 
 function uniqueKeyCode(event) {
-    let key = event.keyCode || event.which;
-    document.getElementById("demo2").innerText = `The event.keycode is: ${key}`
-    playPiano(key.toString());
+    let code = event.keyCode || event.which;
+    let keyEls = event.target.children[2].children[0].children
+    let find = codeNotes.find(element => element[2] === code)
+    let element = findKeyElementFromCodeNotes(find, keyEls);
+    element.style.backgroundColor = "orange";
+    setTimeout(function() {
+        if (element.className === "key white") {
+            element.style.backgroundColor = "white";
+        }
+        else {
+            element.style.backgroundColor = "black";
+        }
+    }, 1000)
+    document.getElementById("demo2").innerText = `The event.keycode is: ${code}`
+    playPianoFromKey(code.toString());
 }
+
+function findKeyElementFromCodeNotes(noteArray, keyElements) {
+    let correct = []
+    for (const key of keyElements) {
+        let split = key.id.split("_")
+        if ((split[4] === noteArray[0]) && (split[2] == noteArray[1])){
+            correct.push(key)
+        }
+    }
+    return correct[0]
+};
 
 function createVisual() {
     let keys = []
@@ -47,7 +70,6 @@ function createVisual() {
         else {
             key.setAttribute("class", "key white")
         }
-        // add event listener for each key
         key.addEventListener("mouseover", function(event) {   
             event.target.style.backgroundColor = "orange";
         })
@@ -59,24 +81,45 @@ function createVisual() {
                 event.target.style.backgroundColor = "black";
             }
         })
-        // console.log(key)
+        key.addEventListener("click", function(event){
+            playPianoFromClick(event.target);
+        })
         pianoElement.appendChild(key)
         keys.push(key)
     };
-    // console.log(keys)
 }
 
-function playPiano(keycode) {
+function playPianoFromKey(keycode) {
     keysPressed.push(keycode);
     console.log(keysPressed);
     _audioSynth.setVolume(0.5);
     let piano = _audioSynth.createInstrument('piano');
-
-    // play note: Name(string), octave(int), duration in seconds(int)
     let note = codeNotes.find(element => element[2] == keycode)
+    // need to figure out how to update duration
     piano.play(note[0], note[1], 2);
 }
 
+function playPianoFromClick(element){
+    let piano = _audioSynth.createInstrument('piano');
+    let keys = pianoElement.childNodes
+    let key = findKeyFromArray(keys, element.id)
+    let keySplit = key.id.split("_")
+    for (const code of codeNotes){
+        if ((code[0] === keySplit[4]) && (code[1] == keySplit[2])) {
+            // need to figure out how to update duration
+            piano.play(code[0], code[1], 2)
+        }    
+    }
+}
 
+function findKeyFromArray(keys, id) {
+    let keyArr = []
+    keys.forEach(function(key) {
+        if (key.id === id) {
+            keyArr.push(key)
+        }
+    })
+    return keyArr[0]
+}
 
 createVisual();
