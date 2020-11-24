@@ -44,24 +44,7 @@ function createVisual() {
         pianoElement.appendChild(key)
         keys.push(key)
     };
-    // orderKeysByNote(keys);
-    let blackKeys = document.getElementsByClassName("black_key")
-    for(i = 0; i < blackKeys.length; i++) {
-        blackKeys[i].style.backgroundColor = 'blue';
-
-      }
     console.log(keys)
-}
-
-function orderKeysByNote(keys) {
-    console.log(keys)
-    let ids = (keys.map(key => key.id)).sort();
-    // let sorted = keys.sort(function(a,c) {
-    //     return a.id - b.id;
-    // });
-    // let sorted = ids.sort()
-    console.log(ids)
-    // console.log(sorted)
 }
 
 function playPiano(keycode) {
@@ -69,7 +52,6 @@ function playPiano(keycode) {
     console.log(keysPressed);
     _audioSynth.setVolume(0.5);
     let piano = _audioSynth.createInstrument('piano');
-    // console.log(piano)
 
     // play note: Name(string), octave(int), duration in seconds(int)
     let note = codeNotes.find(element => element[2] == keycode)
