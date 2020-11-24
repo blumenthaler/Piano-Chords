@@ -18,6 +18,19 @@ h1, p {
     align-items: center;
 }
 
+.blackLabel {
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+    
+}
+
+.whiteLabel {
+    text-align: center;
+    margin-top: 70px;
+
+}
+
 #keyboard {
     display: flex;
 }
@@ -34,10 +47,16 @@ h1, p {
     margin-left: -13px;
     margin-right: -13px;
     z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .white {
     width: 50px;
     height: 200px;
     background-color: white;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
