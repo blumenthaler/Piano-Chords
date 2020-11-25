@@ -1,4 +1,4 @@
-let chordMode = false;
+let chordMode = true;
 
 const codeNotes = [
     ["C", 3, 81, "Q"],
@@ -173,7 +173,7 @@ function displayCorrectKeys(keys) {
     })
 }
 
-const testChord = new Chord("test major", "4, 3", "M, Major, Test")
+const testChord = new Chord("test minor", "3, 4", "m, Minor, Test")
 
 function getChordNotes(element) {
     let structure = testChord.structure.split(", ").map(el => parseInt(el))
