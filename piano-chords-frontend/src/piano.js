@@ -31,12 +31,15 @@ const codeNotes = [
 let keysPressed = [];
 let _audioSynth = new AudioSynth();
 let pianoElement = document.getElementById("keyboard");
+const keyElements = document.getElementsByClassName("key")
 
 function uniqueKeyCode(event) {
     let code = event.keyCode || event.which;
-    let keyEls = event.target.children[3].children[0].children
+    // let keyEls = event.target.children[3].children[0].children
+    console.log(keyElements)
+
     let find = codeNotes.find(element => element[2] === code)
-    let element = findKeyElementFromCodeNotes(find, keyEls);
+    let element = findKeyElementFromCodeNotes(find);
     element.style.backgroundColor = "#FFBF46";
     setTimeout(function() {
         if (element.className === "key white") {
@@ -50,7 +53,7 @@ function uniqueKeyCode(event) {
     playPianoFromKey(code.toString());
 }
 
-function findKeyElementFromCodeNotes(noteArray, keyElements) {
+function findKeyElementFromCodeNotes(noteArray) {
     let correct = []
     for (const key of keyElements) {
         let split = key.id.split("_")
@@ -79,9 +82,10 @@ function createVisual() {
             label.className = "whiteLabel"
         }
         key.addEventListener("mouseover", function(event) {   
-            event.target.style.backgroundColor = "#FFBF46";
             if (chordMode) {
-                showChordFromElement(event.target)
+                let codes = getChordNotes(event.target);
+                let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                keys.forEach(el => el.style.backgroundColor = "#FFBF46")
             }
         })
         key.addEventListener("mouseout", function(event) {
@@ -102,11 +106,26 @@ function createVisual() {
 
 const testChord = new Chord("test major", "4, 3", "M, Major, Test")
 
-function showChordFromElement(element) {
+function getChordNotes(element) {
     let structure = testChord.structure.split(", ").map(el => parseInt(el))
+    structure.unshift(0)
     let startNote = codeNotes[element.id.split("_")[0]]
-    console.log(element)
+    // starting at the start note, return they key elements for each note in structure (chord)
+    let index = codeNotes.indexOf(startNote)
+    let notesRange = codeNotes.slice(index, (structure.reduce((a, b) => a + b, 0) + 1))
     console.log(structure)
+    console.log(startNote)
+    let codes = []
+    codes.push(notesRange[structure[0]])
+    for (i = 1; i < structure.length; i++) {
+        if (i === 1) {
+            codes.push(notesRange[structure[i]])
+        }
+        else {
+        codes.push(notesRange[structure.slice(structure.length - i).reduce((a, b) => a+b, 0)])
+        }
+    }
+    return codes
 }
 
 
