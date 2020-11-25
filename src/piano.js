@@ -111,7 +111,14 @@ function createVisual() {
             }
         })
         key.addEventListener("click", function(event){
-            playPianoFromClick(event.target);
+            if (chordMode) {
+                let codes = getChordNotes(event.target);
+                let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                keys.forEach(key => playPianoFromClick(key))
+            }
+            else {
+                playPianoFromClick(event.target);
+            }
         })
         pianoElement.appendChild(key)
         keys.push(key)
