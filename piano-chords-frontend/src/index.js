@@ -4,9 +4,12 @@ chordDropdown.className = "chord"
 let dropContainer = document.getElementsByClassName('drop_cont')[0]
 const dropdownBtn = document.createElement('button')
 dropdownBtn.setAttribute('onclick', "showChords")
+dropdownBtn.className = "drop_btn"
+dropdownBtn.innerText = "Select Chord Type"
 
 const drop = document.createElement('div')
 drop.setAttribute('id', 'chord dropdown')
+drop.className = "dropdown_content"
 chordDropdown.appendChild(dropdownBtn)
 chordDropdown.appendChild(drop)
 dropContainer.appendChild(chordDropdown)
