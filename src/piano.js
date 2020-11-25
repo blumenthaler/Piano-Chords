@@ -70,6 +70,14 @@ function createVisual() {
         key.appendChild(label)
         key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${codeNotes[i][0]}`)
         label.setAttribute('for', `${key.id}`)
+
+        let keyLabel = document.createElement('label')
+        keyLabel.innerText = key.id.split("_")[4]
+        keyLabel.className = "key_label"
+        keyLabel.setAttribute('id', `label_${key.id}`)
+        keyLabel.style.display = "none";
+        key.appendChild(keyLabel)
+
         if (codeNotes[i][0].length === 2) {
             key.setAttribute("class", "key black")
             label.className = "blackLabel"
@@ -82,7 +90,11 @@ function createVisual() {
             if (chordMode) {
                 let codes = getChordNotes(event.target);
                 let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-                keys.forEach(el => el.style.backgroundColor = "#FFBF46")
+                keys.forEach(el => {
+                    el.style.backgroundColor = "#FFBF46";
+                    let keyLabel = document.getElementById(`label_${el.id}`)
+                    keyLabel.style.display = "inline"
+                })
             }
             else {
                 event.target.style.backgroundColor = "#FFBF46"
@@ -92,6 +104,10 @@ function createVisual() {
             if (chordMode) {
                 let codes = getChordNotes(event.target);
                 let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                let labels = document.getElementsByClassName('key_label')
+                for (const label of labels) {
+                    label.style.display = "none"
+                }
                 keys.forEach(el => {
                     if (el.className === "key white") {
                         el.style.backgroundColor = "white"
