@@ -1,3 +1,5 @@
+let chordMode = true;
+
 const codeNotes = [
     ["C", 3, 81, "Q"],
     ["C#", 3, 50, "2"],
@@ -78,6 +80,9 @@ function createVisual() {
         }
         key.addEventListener("mouseover", function(event) {   
             event.target.style.backgroundColor = "#FFBF46";
+            if (chordMode) {
+                showChordFromElement(event.target)
+            }
         })
         key.addEventListener("mouseout", function(event) {
             if (key.className === "key white") {
@@ -94,6 +99,16 @@ function createVisual() {
         keys.push(key)
     };
 }
+
+const testChord = new Chord("test major", "4, 3", "M, Major, Test")
+
+function showChordFromElement(element) {
+    let structure = testChord.structure.split(", ").map(el => parseInt(el))
+    let startNote = codeNotes[element.id.split("_")[0]]
+    console.log(element)
+    console.log(structure)
+}
+
 
 function playPianoFromKey(keycode) {
     keysPressed.push(keycode);
