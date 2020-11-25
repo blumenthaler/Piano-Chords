@@ -34,7 +34,7 @@ function createChordsFromJson(data) {
     selection.className = "chord_select"
     // selection.setAttribute('href', 'link for selection?')
     drop.appendChild(selection)
-    console.log(drop)
+    // console.log(drop)
 } 
 
 class Chord {
@@ -47,5 +47,5 @@ class Chord {
 
 function showChords() {
     drop.classList.toggle("show");
-    console.log(drop.classList)
+    // console.log(drop.classList)
 }

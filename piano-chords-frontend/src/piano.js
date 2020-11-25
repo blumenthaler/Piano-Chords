@@ -126,9 +126,7 @@ function getChordNotes(element) {
     let startNote = codeNotes[element.id.split("_")[0]]
     // starting at the start note, return they key elements for each note in structure (chord)
     let index = codeNotes.indexOf(startNote)
-    let notesRange = codeNotes.slice(index, (structure.reduce((a, b) => a + b, 0) + 1))
-    console.log(structure)
-    console.log(startNote)
+    let notesRange = codeNotes.slice(index, (index + (structure.reduce((a, b) => a + b, 0) + 1)))
     let codes = []
     codes.push(notesRange[structure[0]])
     for (i = 1; i < structure.length; i++) {
