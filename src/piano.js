@@ -1,4 +1,4 @@
-let chordMode = true;
+let chordMode = false;
 
 const codeNotes = [
     ["C", 3, 81, "Q"],
@@ -33,13 +33,29 @@ let _audioSynth = new AudioSynth();
 let pianoElement = document.getElementById("keyboard");
 const keyElements = document.getElementsByClassName("key")
 
-function uniqueKeyCode(event) {
-
-    // console.log(event.target.children[3].children[0].children)
-    // console.log(keyElements)
-
+function stopHighlight(event) {
     let code = event.keyCode || event.which;
+    let find = codeNotes.find(element => element[2] === code)
+    let element = findKeyElementFromCodeNotes(find);
+    if (chordMode) {
+        let codes = getChordNotes(element)
+        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+        // refactor into another method
+        keys.forEach(el => {
+            if (el.className === "key white") {
+                el.style.backgroundColor = "white";
+            }
+            else {
+                el.style.backgroundColor = "black";
+            }
+            let keyLabel = document.getElementById(`label_${el.id}`)
+            keyLabel.style.display = "none"
+        })
+    }   
+}
 
+function uniqueKeyCode(event) {
+    let code = event.keyCode || event.which;
     let find = codeNotes.find(element => element[2] === code)
     let element = findKeyElementFromCodeNotes(find);
     if (chordMode) {
