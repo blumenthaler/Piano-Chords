@@ -35,9 +35,6 @@ const keyElements = document.getElementsByClassName("key")
 
 function uniqueKeyCode(event) {
     let code = event.keyCode || event.which;
-    // let keyEls = event.target.children[3].children[0].children
-    console.log(keyElements)
-
     let find = codeNotes.find(element => element[2] === code)
     let element = findKeyElementFromCodeNotes(find);
     element.style.backgroundColor = "#FFBF46";
@@ -87,13 +84,30 @@ function createVisual() {
                 let keys = codes.map(code => findKeyElementFromCodeNotes(code))
                 keys.forEach(el => el.style.backgroundColor = "#FFBF46")
             }
+            else {
+                event.target.style.backgroundColor = "#FFBF46"
+            }
         })
         key.addEventListener("mouseout", function(event) {
-            if (key.className === "key white") {
-                event.target.style.backgroundColor = "white";
+            if (chordMode) {
+                let codes = getChordNotes(event.target);
+                let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                keys.forEach(el => {
+                    if (el.className === "key white") {
+                        el.style.backgroundColor = "white"
+                    }
+                    else {
+                        el.style.backgroundColor = "black"
+                    }
+                })
             }
             else {
-                event.target.style.backgroundColor = "black";
+                if (key.className === "key white") {
+                    event.target.style.backgroundColor = "white";
+                }
+                else {
+                    event.target.style.backgroundColor = "black";
+                }
             }
         })
         key.addEventListener("click", function(event){
