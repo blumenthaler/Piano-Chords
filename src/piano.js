@@ -35,7 +35,6 @@ function uniqueKeyCode(event) {
     let keyEls = event.target.children[3].children[0].children
     let find = codeNotes.find(element => element[2] === code)
     let element = findKeyElementFromCodeNotes(find, keyEls);
-    // console.log(event.target.children[3])
     element.style.backgroundColor = "#FFBF46";
     setTimeout(function() {
         if (element.className === "key white") {

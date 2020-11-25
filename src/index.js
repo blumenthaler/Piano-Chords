@@ -3,7 +3,7 @@ const chordDropdown = document.createElement('div')
 chordDropdown.className = "chord"
 let dropContainer = document.getElementsByClassName('drop_cont')[0]
 const dropdownBtn = document.createElement('button')
-dropdownBtn.setAttribute('onclick', "showChords")
+dropdownBtn.setAttribute('onclick', "showChords()")
 dropdownBtn.className = "drop_btn"
 dropdownBtn.innerText = "Select Chord Type"
 
@@ -31,6 +31,7 @@ function createChordsFromJson(data) {
     let chord = new Chord(name, structure, symbols)
     let selection = document.createElement('a')
     selection.innerText = name;
+    selection.className = "chord_select"
     // selection.setAttribute('href', 'link for selection?')
     drop.appendChild(selection)
     console.log(drop)
@@ -45,5 +46,6 @@ class Chord {
 }
 
 function showChords() {
-    document.getElementById("myDropdown").classList.toggle("show");
+    drop.classList.toggle("show");
+    console.log(drop.classList)
 }
