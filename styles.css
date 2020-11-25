@@ -17,7 +17,11 @@ h1, p {
 
 .chord_select {
     display: block;
-    padding: 5px
+    padding: 8px
+}
+
+.chord_select:hover {
+    background-color: #ddd;
 }
 
 .dropdown_content {
