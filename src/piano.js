@@ -34,20 +34,32 @@ let pianoElement = document.getElementById("keyboard");
 const keyElements = document.getElementsByClassName("key")
 
 function uniqueKeyCode(event) {
+
+    // console.log(event.target.children[3].children[0].children)
+    // console.log(keyElements)
+
     let code = event.keyCode || event.which;
+
     let find = codeNotes.find(element => element[2] === code)
     let element = findKeyElementFromCodeNotes(find);
-    element.style.backgroundColor = "#FFBF46";
-    setTimeout(function() {
-        if (element.className === "key white") {
-            element.style.backgroundColor = "white";
-        }
-        else {
-            element.style.backgroundColor = "black";
-        }
-    }, 500)
-    document.getElementById("demo2").innerText = `The event.keycode is: ${code}`
-    playPianoFromKey(code.toString());
+    if (chordMode) {
+        let codes = getChordNotes(element)
+        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+        displayCorrectKeys(keys)
+    }
+    else {
+        element.style.backgroundColor = "#FFBF46";
+        setTimeout(function() {
+            if (element.className === "key white") {
+                element.style.backgroundColor = "white";
+            }
+            else {
+                element.style.backgroundColor = "black";
+            }
+        }, 500)
+        document.getElementById("demo2").innerText = `The event.keycode is: ${code}`
+        playPianoFromKey(code.toString());
+    }
 }
 
 function findKeyElementFromCodeNotes(noteArray) {
@@ -90,11 +102,7 @@ function createVisual() {
             if (chordMode) {
                 let codes = getChordNotes(event.target);
                 let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-                keys.forEach(el => {
-                    el.style.backgroundColor = "#FFBF46";
-                    let keyLabel = document.getElementById(`label_${el.id}`)
-                    keyLabel.style.display = "inline"
-                })
+                displayCorrectKeys(keys)
             }
             else {
                 event.target.style.backgroundColor = "#FFBF46"
@@ -139,6 +147,14 @@ function createVisual() {
         pianoElement.appendChild(key)
         keys.push(key)
     };
+}
+
+function displayCorrectKeys(keys) {
+    keys.forEach(el => {
+        el.style.backgroundColor = "#FFBF46";
+        let keyLabel = document.getElementById(`label_${el.id}`)
+        keyLabel.style.display = "inline"
+    })
 }
 
 const testChord = new Chord("test major", "4, 3", "M, Major, Test")
