@@ -98,6 +98,18 @@ function uniqueKeyCode(event) {
     }
 }
 
+// to fix duration, refactor play from keypress
+// unique values
+// so for each pressed key (in set), play the note (duration can *probably* stay the same)
+// once keyup, remove from set
+// include this ability for chords as well
+// can also use the Set to play notes one at a time (arpMode)
+// 
+// function pressedKeys() {
+//     let pressed = [...new Set(keysPressed)]
+//     return pressed
+// }
+
 function findKeyElementFromCodeNotes(noteArray) {
     let correct = []
     for (const key of keyElements) {
