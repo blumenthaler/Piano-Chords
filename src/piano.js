@@ -192,21 +192,14 @@ function getChordNotes(element) {
     structure.unshift(0)
     let startNote = codeNotes[element.id.split("_")[0]]
     // starting at the start note, return they key elements for each note in structure (chord)
-    let index = codeNotes.indexOf(startNote)
-    let notesRange = codeNotes.slice(index, (index + (structure.reduce((a, b) => a + b, 0) + 1)))
+    let index = codeNotes.indexOf(startNote) 
+    let notesRange = codeNotes.slice(index, (index + (structure.reduce((a, b) => a + b, 0) + 1))) 
     let codes = []
-    codes.push(notesRange[structure[0]])
-    for (i = 1; i < structure.length; i++) {
-        if (i === 1) {
-            codes.push(notesRange[structure[i]])
-        }
-        else {
-        codes.push(notesRange[structure.slice(structure.length - i).reduce((a, b) => a+b, 0)])
-        }
+    for (i = 0; i < structure.length; i++) {
+        codes.push(notesRange[structure[i]])
     }
     return codes
 }
-
 
 function playPianoFromKey(keycode) {
     keysPressed.push(keycode);
