@@ -1,5 +1,9 @@
 let chordMode = true;
 
+document.addEventListener("DOMContentLoaded", () => {
+    createVisual();
+})
+
 const codeNotes = [
     ["C", 3, 81, "Q"],
     ["C#", 3, 50, "2"],
@@ -231,5 +235,3 @@ function findKeyFromArray(keys, id) {
     })
     return keyArr[0]
 }
-
-createVisual();

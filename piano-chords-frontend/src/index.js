@@ -2,12 +2,12 @@ const BACKEND_URL = 'http://localhost:3000';
 const chordDropdown = document.createElement('div')
 chordDropdown.className = "chord"
 let dropContainer = document.getElementsByClassName('drop_cont')[0]
-const dropdownBtn = document.createElement('button')
-dropdownBtn.setAttribute('onclick', "showChords()")
+
+const dropdownBtn = document.createElement('div')
 dropdownBtn.className = "drop_btn"
 dropdownBtn.innerText = "Select Chord Type"
 
-const drop = document.createElement('div')
+const drop = document.createElement('select')
 drop.setAttribute('id', 'chord dropdown')
 drop.className = "dropdown_content"
 chordDropdown.appendChild(dropdownBtn)
@@ -24,17 +24,20 @@ fetch(`${BACKEND_URL}/chords`)
     })
 });
 
+const chordsArray = []
+
 function createChordsFromJson(data) {
     let name = data.attributes.name
     let structure = data.attributes.structure
     let symbols = data.attributes.symbols
     let chord = new Chord(name, structure, symbols)
-    let selection = document.createElement('a')
+    let selection = document.createElement('option')
     selection.innerText = name;
     selection.className = "chord_select"
+    chordsArray.push(chord)
     // selection.setAttribute('href', 'link for selection?')
     drop.appendChild(selection)
-    // console.log(drop)
+    console.log(drop)
 } 
 
 class Chord {
