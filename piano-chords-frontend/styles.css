@@ -27,7 +27,7 @@ h1, p {
 .dropdown_content {
     display: inline;
     position: relative;
-    margin-left: 20px;
+    margin-left: 10px;
     margin-bottom: 40px;;
     background-color: #48233C;
     color: #87bba2;
@@ -41,6 +41,10 @@ h1, p {
     cursor: pointer
 }
 
+.dropdown_content:hover {
+    background-color: #40376E;
+}
+
 .show {
     display:block;
     padding: 10px 10px;
@@ -48,19 +52,6 @@ h1, p {
     z-index: 4;
     position: absolute;
 }
-
-.drop_btn {
-    background-color: #48233C;
-    display: inline;
-    color: #87bba2;
-    padding: 13px;
-    font-size: 13px;
-    border: none;
-}
-
-.dropdown_content:hover {
-    background-color: #40376E;
-  }
 
 .container {
     margin: 0;

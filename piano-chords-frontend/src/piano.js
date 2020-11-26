@@ -178,10 +178,17 @@ function displayCorrectKeys(keys) {
     })
 }
 
-const testChord = new Chord("test minor", "3, 4", "m, Minor, Test")
+let currentChord = new Chord("major", "4, 3", "M")
+
+function findChord() {
+    let name = drop.value
+    let chord = chordsArray.find(chord => chord.name === name)
+    return chord
+}
 
 function getChordNotes(element) {
-    let structure = testChord.structure.split(", ").map(el => parseInt(el))
+    let chord = findChord()
+    let structure = chord.structure.split(", ").map(el => parseInt(el))
     structure.unshift(0)
     let startNote = codeNotes[element.id.split("_")[0]]
     // starting at the start note, return they key elements for each note in structure (chord)
