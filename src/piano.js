@@ -62,6 +62,7 @@ function uniqueKeyCode(event) {
         let codes = getChordNotes(element)
         let keys = codes.map(code => findKeyElementFromCodeNotes(code))
         displayCorrectKeys(keys)
+        codes.forEach(code => playPianoFromKey(code[2]))
     }
     else {
         element.style.backgroundColor = "#FFBF46";
