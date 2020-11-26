@@ -1,5 +1,5 @@
 let chordMode = true;
-
+let arpMode = true;
 document.addEventListener("DOMContentLoaded", () => {
     createVisual();
 })
@@ -73,7 +73,15 @@ function uniqueKeyCode(event) {
         let codes = getChordNotes(element)
         let keys = codes.map(code => findKeyElementFromCodeNotes(code))
         displayCorrectKeys(keys)
-        codes.forEach(code => playPianoFromKey(code[2]))
+        if (arpMode) {
+            console.log("hello")
+            codes.forEach(code => {
+                    setInterval(playPianoFromKey(code[2]), 8000)
+            })
+        }
+        else {
+            codes.forEach(code => playPianoFromKey(code[2]))
+        }
     }
     else {
         element.style.backgroundColor = "#FFBF46";
@@ -178,6 +186,7 @@ function createVisual() {
 }
 
 function displayCorrectKeys(keys) {
+    // set timeout for arpMode
     keys.forEach(el => {
         el.style.backgroundColor = "#FFBF46";
         let keyLabel = document.getElementById(`label_${el.id}`)
@@ -196,7 +205,6 @@ function findChord() {
 function getChordNotes(element) {
     let chord = findChord()
     let structure = chord.structure.split(", ").map(el => parseInt(el))
-    structure.unshift(0)
     let startNote = codeNotes[element.id.split("_")[0]]
     // starting at the start note, return they key elements for each note in structure (chord)
     let index = codeNotes.indexOf(startNote) 

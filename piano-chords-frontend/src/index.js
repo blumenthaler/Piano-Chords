@@ -41,7 +41,6 @@ function createChordsFromJson(data) {
     chordsArray.push(chord)
     // selection.setAttribute('href', 'link for selection?')
     drop.appendChild(selection)
-    console.log(drop)
 } 
 
 class Chord {
