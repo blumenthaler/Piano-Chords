@@ -1,9 +1,5 @@
 let chordMode = true;
 let arpMode = true;
-document.addEventListener("DOMContentLoaded", () => {
-    createVisual();
-})
-
 const codeNotes = [
     ["C", 3, 81, "Q"],
     ["C#", 3, 50, "2"],
@@ -39,106 +35,28 @@ const codeNotes = [
     ["G", 5, 190, "."]
 ]
 
-let keysPressed = [];
-let _audioSynth = new AudioSynth();
-let pianoElement = document.getElementById("keyboard");
-const keyElements = document.getElementsByClassName("key")
-
-function stopHighlight(event) {
-    let code = event.keyCode || event.which;
-    let find = codeNotes.find(element => element[2] === code)
-    let element = findKeyElementFromCodeNotes(find);
-    if (chordMode) {
-        let codes = getChordNotes(element)
-        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-        // refactor into another method
-        keys.forEach(el => {
-            if (el.className === "key white") {
-                el.style.backgroundColor = "white";
-            }
-            else {
-                el.style.backgroundColor = "black";
-            }
-            let keyLabel = document.getElementById(`label_${el.id}`)
-            keyLabel.style.display = "none"
-        })
-    }   
-}
-
-function uniqueKeyCode(event) {
-    let code = event.keyCode || event.which;
-    let find = codeNotes.find(element => element[2] === code)
-    let element = findKeyElementFromCodeNotes(find);
-    if (chordMode) {
-        let codes = getChordNotes(element)
-        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-        displayCorrectKeys(keys)
-        if (arpMode) {
-            console.log("hello")
-            codes.forEach(code => {
-                    setInterval(playPianoFromKey(code[2]), 8000)
-            })
-        }
-        else {
-            codes.forEach(code => playPianoFromKey(code[2]))
-        }
-    }
-    else {
-        element.style.backgroundColor = "#FFBF46";
-        setTimeout(function() {
-            if (element.className === "key white") {
-                element.style.backgroundColor = "white";
-            }
-            else {
-                element.style.backgroundColor = "black";
-            }
-        }, 500)
-        document.getElementById("demo2").innerText = `The event.keycode is: ${code}`
-        playPianoFromKey(code.toString());
-    }
-}
-
-// to fix duration, refactor play from keypress
-// unique values
-// so for each pressed key (in set), play the note (duration can *probably* stay the same)
-// once keyup, remove from set
-// include this ability for chords as well
-// can also use the Set to play notes one at a time (arpMode)
-// 
-// function pressedKeys() {
-//     let pressed = [...new Set(keysPressed)]
-//     return pressed
-// }
-
-function findKeyElementFromCodeNotes(noteArray) {
-    let correct = []
-    for (const key of keyElements) {
-        let split = key.id.split("_")
-        if ((split[4] === noteArray[0]) && (split[2] == noteArray[1])){
-            correct.push(key)
-        }
-    }
-    return correct[0]
-};
+document.addEventListener("DOMContentLoaded", () => {
+    createVisual();
+})
 
 function createVisual() {
-    let keys = []
     for (i = 0; i < codeNotes.length; i++) {
         let key = document.createElement('div')
         let label = document.createElement('label')
+        let noteName = codeNotes[i][0]
         label.innerText = codeNotes[i][3]
         key.appendChild(label)
-        key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${codeNotes[i][0]}`)
+        key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${noteName}`)
         label.setAttribute('for', `${key.id}`)
-
+        // creates second label for Note Name; may want to refactor
         let keyLabel = document.createElement('label')
-        keyLabel.innerText = key.id.split("_")[4]
+        keyLabel.innerText = noteName
         keyLabel.className = "key_label"
         keyLabel.setAttribute('id', `label_${key.id}`)
         keyLabel.style.display = "none";
         key.appendChild(keyLabel)
 
-        if (codeNotes[i][0].length === 2) {
+        if (noteName.length === 2) {
             key.setAttribute("class", "key black")
             label.className = "blackLabel"
         }
@@ -153,36 +71,16 @@ function createVisual() {
                 displayCorrectKeys(keys)
             }
             else {
-                event.target.style.backgroundColor = "#FFBF46"
+                displayCorrectKey(event.target)
             }
         })
         key.addEventListener("mouseout", function(event) {
-            if (chordMode) {
-                let codes = getChordNotes(event.target);
-                let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-                let labels = document.getElementsByClassName('key_label')
-                for (const label of labels) {
-                    label.style.display = "none"
-                }
-                keys.forEach(el => {
-                    if (el.className === "key white") {
-                        el.style.backgroundColor = "white"
-                    }
-                    else {
-                        el.style.backgroundColor = "black"
-                    }
-                })
-            }
-            else {
-                if (key.className === "key white") {
-                    event.target.style.backgroundColor = "white";
-                }
-                else {
-                    event.target.style.backgroundColor = "black";
-                }
-            }
+            unhighlight(event.target)
         })
-        key.addEventListener("click", function(event){
+        key.addEventListener("mousedown", function(event){
+            // this kind of code repeats itself;
+            // should definitely refactor this, will make arpeggiate mode potentially easier
+            // i.e. if chordMode, playChordFromClick(keys) => if arpMode, set Timeout to play each note
             if (chordMode) {
                 let codes = getChordNotes(event.target);
                 let keys = codes.map(code => findKeyElementFromCodeNotes(code))
@@ -193,30 +91,102 @@ function createVisual() {
             }
         })
         pianoElement.appendChild(key)
-        keys.push(key)
     };
 }
 
+let _audioSynth = new AudioSynth();
+let keysPressed = [];
+const pianoElement = document.getElementById("keyboard");
+const keyElements = document.getElementsByClassName("key")
+
+// body event = onkeydown
+function playThePiano(event) {
+    // get keycode from keypress, find corresponding note from codeNotes, find key element for that note
+    let code = event.keyCode || event.which;
+    let noteArray = codeNotes.find(element => element[2] === code)
+    let noteElement = findKeyElementFromCodeNotes(noteArray);
+    // if chordMode, get all elements for that chord and play them
+    if (chordMode) {
+        let codes = getChordNotes(noteElement)
+        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+        displayCorrectKeys(keys)
+        // if (arpMode) {
+        //     // This needs fixing
+        //     console.log("hello")
+        //     codes.forEach(code => {
+        //             setInterval(playPianoFromKey(code[2]), 8000)
+        //     })
+        // }
+        //else {
+        codes.forEach(code => playPianoFromKey(code[2]))
+        //}
+    }
+    // if not chordMode, play single note
+    else {
+        displayCorrectKey(noteElement)
+        playPianoFromKey(code.toString());
+    }
+}
+
+function findKeyElementFromCodeNotes(noteArray) {
+    for (const key of keyElements) {
+        let split = key.id.split("_")
+        if ((split[4] === noteArray[0]) && (split[2] == noteArray[1])){
+            return key
+        }
+    }
+};
+
 function displayCorrectKeys(keys) {
-    // set timeout for arpMode
     keys.forEach(el => {
-        el.style.backgroundColor = "#FFBF46";
-        let keyLabel = document.getElementById(`label_${el.id}`)
-        keyLabel.style.display = "inline"
+        displayCorrectKey(el)
     })
 }
 
-let currentChord = new Chord("major", "4, 3", "M")
+function displayCorrectKey(element) {
+    element.style.backgroundColor = "#FFBF46"
+    let keyLabel = document.getElementById(`label_${element.id}`)
+    keyLabel.style.display = "inline"
+}
 
-function findChord() {
-    let name = drop.value
-    let chord = chordsArray.find(chord => chord.name === name)
-    return chord
+function stopHighlight(event) {
+    let code = event.keyCode || event.which;
+    let find = codeNotes.find(element => element[2] === code)
+    let element = findKeyElementFromCodeNotes(find);
+    unhighlight(element);
+}
+
+function unhighlight(element) {
+    if (chordMode) {
+        let codes = getChordNotes(element);
+        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+        unhighlightKeys(keys)
+    }
+    else {
+        unhighlightKey(element)
+    }
+}
+
+function unhighlightKeys(elements) {
+    elements.forEach(el => {
+        unhighlightKey(el)
+    })
+}
+
+function unhighlightKey(element) {
+    if (element.className === "key white") {
+        element.style.backgroundColor = "white";
+    }
+    else {
+        element.style.backgroundColor = "black";
+    }
+    let keyLabel = document.getElementById(`label_${element.id}`)
+    keyLabel.style.display = "none"
 }
 
 function getChordNotes(element) {
     let chord = findChord()
-    let structure = chord.structure.split(", ").map(el => parseInt(el))
+    let structure = chord.structure.split(", ").map(integer => parseInt(integer))
     let startNote = codeNotes[element.id.split("_")[0]]
     // starting at the start note, return they key elements for each note in structure (chord)
     let index = codeNotes.indexOf(startNote) 
@@ -226,6 +196,14 @@ function getChordNotes(element) {
         codes.push(notesRange[structure[i]])
     }
     return codes
+}
+
+let currentChord = new Chord("major", "4, 3", "M")
+
+function findChord() {
+    let name = drop.value
+    let chord = chordsArray.find(chord => chord.name === name)
+    return chord
 }
 
 function playPianoFromKey(keycode) {
