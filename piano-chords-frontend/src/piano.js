@@ -99,39 +99,31 @@ let keysPressed = [];
 const pianoElement = document.getElementById("keyboard");
 const keyElements = document.getElementsByClassName("key")
 
-// body event = onkeydown
 function playThePiano(event) {
-    // get keycode from keypress, find corresponding note from codeNotes, find key element for that note
-    let code = event.keyCode || event.which;
-    let noteArray = codeNotes.find(element => element[2] === code)
-    let noteElement = findKeyElementFromCodeNotes(noteArray);
-    // if chordMode, get all elements for that chord and play them
-    if (chordMode) {
-        let codes = getChordNotes(noteElement)
-        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-        displayCorrectKeys(keys)
-        // if (arpMode) {
-        //     // This needs fixing
-        //     console.log("hello")
-        //     codes.forEach(code => {
-        //             setInterval(playPianoFromKey(code[2]), 8000)
-        //     })
-        // }
-        //else {
-        codes.forEach(code => playPianoFromKey(code[2]))
-        //}
-    }
+    if (!event.repeat) {
+        // get keycode from keypress, find corresponding note from codeNotes, find key element for that note
+        let code = event.keyCode || event.which;
+        let noteArray = codeNotes.find(element => element[2] === code)
+        let noteElement = findKeyElementFromCodeNotes(noteArray);
+        // if chordMode, get all elements for that chord and play them
+        if (chordMode) {
+            let codes = getChordNotes(noteElement)
+            let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+            displayCorrectKeys(keys)
+            codes.forEach(code => playPianoFromKey(code[2]))
+        }
     // if not chordMode, play single note
-    else {
-        displayCorrectKey(noteElement)
-        playPianoFromKey(code.toString());
+        else {
+            displayCorrectKey(noteElement)
+            playPianoFromKey(code.toString());
+        }
     }
 }
 
 function findKeyElementFromCodeNotes(noteArray) {
     for (const key of keyElements) {
         let split = key.id.split("_")
-        if ((split[4] === noteArray[0]) && (split[2] == noteArray[1])){
+        if ((split[4] === noteArray[0]) && (split[2] == noteArray[1])) {
             return key
         }
     }
@@ -198,8 +190,6 @@ function getChordNotes(element) {
     return codes
 }
 
-let currentChord = new Chord("major", "4, 3", "M")
-
 function findChord() {
     let name = drop.value
     let chord = chordsArray.find(chord => chord.name === name)
@@ -207,13 +197,9 @@ function findChord() {
 }
 
 function playPianoFromKey(keycode) {
-    keysPressed.push(keycode);
-
-    console.log(keysPressed);
     _audioSynth.setVolume(0.3);
     let piano = _audioSynth.createInstrument('piano');
     let note = codeNotes.find(element => element[2] == keycode)
-    // need to figure out how to update duration
     piano.play(note[0], note[1], 2);
 }
 
@@ -225,7 +211,6 @@ function playPianoFromClick(element){
     let keySplit = key.id.split("_")
     for (const code of codeNotes){
         if ((code[0] === keySplit[4]) && (code[1] == keySplit[2])) {
-            // need to figure out how to update duration
             piano.play(code[0], code[1], 2)
         }    
     }
