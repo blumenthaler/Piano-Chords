@@ -57,15 +57,20 @@ function showChords() {
     drop.classList.toggle("show");
 }
 
-function createChords() {
-    fetch(USERS_URL)
-    .then(response => response.json())
-    .then(parsedResponse => {
-        console.log(parsedResponse)
-    //   parsedResponse.data.forEach(function(chordData) {
-    //       createChordsFromJson(chordData)
-    //   })
-  });
-}
+// function createChords() {
+//     let data  = {"user_id": "1"}
+//     fetch(USERS_URL, {
+//         method: "POST",
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json'
+//         },
+//         body: JSON.stringify(data)
+//     })
+//     .then(response => response.json())
+//     .then(parsedResponse => {
+//         console.log(parsedResponse)
+//   });
+// }
 
-createChords()
+// createChords()
