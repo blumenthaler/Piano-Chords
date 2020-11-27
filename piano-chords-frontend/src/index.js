@@ -1,4 +1,6 @@
 const BACKEND_URL = 'http://localhost:3000';
+const USERS_URL = `${BACKEND_URL}/users`
+const CHORDS_URL = `${BACKEND_URL}/chords`
 const chordDropdown = document.createElement('div')
 chordDropdown.className = "chord"
 let dropContainer = document.getElementsByClassName('drop_cont')[0]
@@ -19,7 +21,7 @@ chordDropdown.appendChild(drop)
 dropContainer.appendChild(chordDropdown)
 
 
-fetch(`${BACKEND_URL}/chords`)
+fetch(CHORDS_URL)
   .then(response => response.json())
   .then(parsedResponse => {
     parsedResponse.data.forEach(function(chordData) {
@@ -54,3 +56,16 @@ class Chord {
 function showChords() {
     drop.classList.toggle("show");
 }
+
+function createChords() {
+    fetch(USERS_URL)
+    .then(response => response.json())
+    .then(parsedResponse => {
+        console.log(parsedResponse)
+    //   parsedResponse.data.forEach(function(chordData) {
+    //       createChordsFromJson(chordData)
+    //   })
+  });
+}
+
+createChords()
