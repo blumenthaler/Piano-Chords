@@ -35,7 +35,7 @@ function createChordsFromJson(response) {
     let chords = response.data
     let chordsUsers = users.map(userData => createUserFromChord(userData))
     chords.forEach(chordData => {
-        console.log(chordData)
+        // console.log(chordData)
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
         let structure = chordData.attributes.structure
@@ -141,18 +141,16 @@ function generateChordForm() {
 }
 
 function submitNewChord(form) {
-    console.log(form)
     let inputs = form.children
     // Example: "C Major"
     let dataName = inputs[0].value // "C Major"
-    let chordSymbols = inputs[1].value // "CM"
+    let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
     let username = inputs[3].value // "username"
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
+    let chordSymbols = findChordSymbols(dataSymbols, chordNotes)
     
-    
-
 }   
     // return fetch(CHORDS_URL, {
     //     method: "POST",
@@ -201,7 +199,26 @@ function findChordNameWithoutNote(notes, name) {
     return newName.join(" ")
 }
 
+function findChordSymbols(symbols, notes) {
+    let splitSymbols = symbols.split(", ")
+    let newSymbols = []
+    for (let symbolArr of splitSymbols) {
+        if (symbolArr.charAt(1) === "#") {
+            let symbol = symbolArr.split("#")
+            symbol.shift()
+            newSymbols.push(symbol)
+        }
+        else if ( notes.includes(symbolArr.charAt(0)) ) {
+            let symbol = symbolArr.split("")
+            symbol.shift()
+            let joined = symbol.join("")
+            newSymbols.push(joined)
+        }
+    }
+    return newSymbols.join(", ")
+}
+
 function createNewChord() {
     let newChord = document.getElementsByClassName('chord-input')
-    console.log(newChord)
+    // console.log(newChord)
 }
