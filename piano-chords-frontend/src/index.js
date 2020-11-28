@@ -144,13 +144,16 @@ function submitNewChord(form) {
     console.log(form)
     let inputs = form.children
     // Example: "C Major"
-    let chordName = inputs[0].value // "C Major"
+    let dataName = inputs[0].value // "C Major"
     let chordSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
     let username = inputs[3].value // "username"
     let chordStructure = findStructureFromNoteNames(chordNotes)
-    console.log(chordStructure)
-}
+    let chordName = findChordNameWithoutNote(chordNotes, dataName);
+    
+    
+
+}   
     // return fetch(CHORDS_URL, {
     //     method: "POST",
     //     headers: 
@@ -183,7 +186,19 @@ function findStructureFromNoteNames(notes) {
         if ( codes.includes(codeNotes[i]) )
             structure.push(i.toString())
     }
-    return structure
+    return structure.join(", ")
+}
+
+function findChordNameWithoutNote(notes, name) {
+    let splitNotes = notes.split(", ") // ["C", "E", "G"]
+    let splitName = name.split(" ") // ["C", "Major"]
+    let newName = []
+    for (const el of splitName) {
+        if (!splitNotes.includes(el)) {
+            newName.push(el)
+        }
+    }
+    return newName.join(" ")
 }
 
 function createNewChord() {
