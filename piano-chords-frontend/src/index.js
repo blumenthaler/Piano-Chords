@@ -24,26 +24,51 @@ dropContainer.appendChild(chordDropdown)
 fetch(CHORDS_URL)
   .then(response => response.json())
   .then(parsedResponse => {
-    parsedResponse.data.forEach(function(chordData) {
-        createChordsFromJson(chordData)
-    })
+        createChordsFromJson(parsedResponse)
 });
 
 const chordsArray = []
+const usersArray = []
 
-function createChordsFromJson(data) {
-    let name = data.attributes.name
-    let structure = data.attributes.structure
-    let symbols = data.attributes.symbols
-    let chord = new Chord(name, structure, symbols)
-    let selection = document.createElement('option')
-    selection.innerText = name;
-    selection.className = "chord_select"
-    selection.setAttribute('value', name)
-    chordsArray.push(chord)
-    // selection.setAttribute('href', 'link for selection?')
-    drop.appendChild(selection)
+function createChordsFromJson(response) {
+    let users = response.included
+    let chords = response.data
+    let chordsUsers = users.map(userData => createUserFromChord(userData))
+    chords.forEach(chordData => {
+        let chordUserId = chordData.relationships.user.data.id
+        let name = chordData.attributes.name
+        let structure = chordData.attributes.structure
+        let symbols = chordData.attributes.symbols
+        let chord = new Chord(name, structure, symbols)   
+        // assign user to each chord
+            for (const user of usersArray) {
+                if (chordUserId == (usersArray.indexOf(user) + 1)) {
+                    chord.user(user)
+                    console.log(chord)
+                }
+            }
+        let selection = document.createElement('option')
+        selection.innerText = name;
+        selection.className = "chord_select"
+        selection.setAttribute('value', name)
+        chordsArray.push(chord)
+        drop.appendChild(selection)
+    })
+
+    console.log(chordsArray)
 } 
+
+function createUserFromChord(data) {
+    let user = new User(data.attributes.username)
+    usersArray.push(user)
+    return user
+}
+
+class User {
+    constructor(username) {
+        this.username = username;
+    }
+}
 
 class Chord {
     constructor(name, structure, symbols) {
@@ -51,13 +76,17 @@ class Chord {
         this.structure = structure;
         this.symbols = symbols;
     }
+
+    user(user) {
+        this.user = user;
+    }
 }
 
 function showChords() {
     drop.classList.toggle("show");
 }
 
-// function createChords() {
+// function createUserAndChord() {
 //     let data  = {"user_id": "1"}
 //     fetch(USERS_URL, {
 //         method: "POST",
@@ -72,5 +101,3 @@ function showChords() {
 //         console.log(parsedResponse)
 //   });
 // }
-
-// createChords()
