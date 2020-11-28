@@ -150,7 +150,10 @@ function submitNewChord(form) {
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
     let chordSymbols = findChordSymbols(dataSymbols, chordNotes)
-    
+    console.log(chordName)
+    console.log(chordSymbols)
+    console.log(chordStructure)
+    console.log(username)
 }   
     // return fetch(CHORDS_URL, {
     //     method: "POST",
@@ -184,11 +187,13 @@ function findStructureFromNoteNames(notes) {
         newArray.push(checkNoteNameForDoubleSharps(nonflat))
     }
     let codes = newArray.map(noteName => codeNotes.find(el => el[0] === noteName))
+    console.log(codes)
     let structure = []
     for (i = 0; i < codeNotes.length; i++) {
         if ( codes.includes(codeNotes[i]) )
             structure.push(i)
     }
+    console.log(structure)
     let adjust = structure.map(int => int - structure[0])
     return adjust.join(", ")
 }
@@ -207,10 +212,12 @@ function checkNoteNameForFlats(name) {
 function checkNoteNameForDoubleSharps(name) {
     if (name === "C##") {return "D"}
     else if (name === "D##") {return "E"}
+    else if (name === "E#") {return "F"}
     else if (name === "E##") {return "F#"}
     else if (name === "F##") {return "G"}
     else if (name === "G##") {return "A"}
     else if (name === "A##") {return "B"}
+    else if (name === "B#") {return "C"}
     else if (name === "B##") {return "C#"}
     else {return name}
 }
