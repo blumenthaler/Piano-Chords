@@ -178,13 +178,41 @@ function submitNewChord(form) {
 
 function findStructureFromNoteNames(notes) {
     let notesArr = notes.split(", ")
-    let codes = notesArr.map(noteName => codeNotes.find(el => el[0] === noteName))
+    let newArray = []
+    for (const name of notesArr) {
+        let nonflat = checkNoteNameForFlats(name)
+        newArray.push(checkNoteNameForDoubleSharps(nonflat))
+    }
+    let codes = newArray.map(noteName => codeNotes.find(el => el[0] === noteName))
     let structure = []
     for (i = 0; i < codeNotes.length; i++) {
         if ( codes.includes(codeNotes[i]) )
-            structure.push(i.toString())
+            structure.push(i)
     }
-    return structure.join(", ")
+    let adjust = structure.map(int => int - structure[0])
+    return adjust.join(", ")
+}
+
+function checkNoteNameForFlats(name) {
+    if (name === "Db") {return "C#"}
+    else if (name === "Eb") {return "D#"}
+    else if (name === "Fb") {return "E"}
+    else if (name === "Gb") {return "F#"}
+    else if (name === "Ab") {return "G#"}
+    else if (name === "Bb") {return "A#"}
+    else if (name === "Cb") {return "B"}
+    else {return name}
+}
+
+function checkNoteNameForDoubleSharps(name) {
+    if (name === "C##") {return "D"}
+    else if (name === "D##") {return "E"}
+    else if (name === "E##") {return "F#"}
+    else if (name === "F##") {return "G"}
+    else if (name === "G##") {return "A"}
+    else if (name === "A##") {return "B"}
+    else if (name === "B##") {return "C#"}
+    else {return name}
 }
 
 function findChordNameWithoutNote(notes, name) {
