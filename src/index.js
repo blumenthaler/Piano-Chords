@@ -143,11 +143,14 @@ function generateChordForm() {
 function submitNewChord(form) {
     console.log(form)
     let inputs = form.children
-    let chordName = inputs[0].value
-    let chordSymbols = inputs[1].value
-    let chordNotes = inputs[2].value
-    let username = inputs[3].value
-
+    // Example: "C Major"
+    let chordName = inputs[0].value // "C Major"
+    let chordSymbols = inputs[1].value // "CM"
+    let chordNotes = inputs[2].value // "C, E, G"
+    let username = inputs[3].value // "username"
+    let chordStructure = findStructureFromNoteNames(chordNotes)
+    console.log(chordStructure)
+}
     // return fetch(CHORDS_URL, {
     //     method: "POST",
     //     headers: 
@@ -158,7 +161,7 @@ function submitNewChord(form) {
     //     body: JSON.stringify({
     //         "name": chordName,
     //         "symbols": chordSymbols,
-    //         "structure": chordNotes,
+    //         "structure": chordStructure,
     //         // user? 
     //     })
     // })
@@ -170,6 +173,17 @@ function submitNewChord(form) {
     // })
     // .catch(function(error) {
     // })
+// }
+
+function findStructureFromNoteNames(notes) {
+    let notesArr = notes.split(", ")
+    let codes = notesArr.map(noteName => codeNotes.find(el => el[0] === noteName))
+    let structure = []
+    for (i = 0; i < codeNotes.length; i++) {
+        if ( codes.includes(codeNotes[i]) )
+            structure.push(i.toString())
+    }
+    return structure
 }
 
 function createNewChord() {
