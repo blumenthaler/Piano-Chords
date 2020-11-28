@@ -35,6 +35,7 @@ function createChordsFromJson(response) {
     let chords = response.data
     let chordsUsers = users.map(userData => createUserFromChord(userData))
     chords.forEach(chordData => {
+        console.log(chordData)
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
         let structure = chordData.attributes.structure
@@ -123,44 +124,53 @@ function generateChordForm() {
         input.setAttribute("class", "chord-input")
         input.setAttribute("type", "text")
         form.appendChild(input)
-        console.log(form)
     })
 
     let submitChord = document.createElement('input')
     submitChord.setAttribute('type', 'submit')
     submitChord.setAttribute('name', 'submit')
     submitChord.setAttribute('value', 'Submit Chord')
-    // submitChord.setAttribute('class', 'submit')
+    submitChord.setAttribute('class', 'submit')
     submitChord.setAttribute('id', 'submit')
-    // add event listener here?
-    submitChord.addEventListener('click', function(c) {
-        c.preventDefault()
-        createNewChord(c)
-    })
+    submitChord.addEventListener('click', e => {
+        e.preventDefault();
+        submitNewChord(e.target.form)
+    }, false)
 
     form.appendChild(submitChord)
 }
 
-function createNewChord(click) {
-    let nameEl = click[0]
-    console.log(nameEl)
-}
-// function createUserAndChord() {
-//     let data  = {"user_id": "1"}
-//     fetch(USERS_URL, {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Accept': 'application/json'
-//         },
-//         body: JSON.stringify(data)
-//     })
-//     .then(response => response.json())
-//     .then(parsedResponse => {
-//         console.log(parsedResponse)
-//   });
-// }
+function submitNewChord(form) {
+    console.log(form)
+    let inputs = form.children
+    let chordName = inputs[0].value
+    let chordSymbols = inputs[1].value
+    let chordNotes = inputs[2].value
+    let username = inputs[3].value
 
+    // return fetch(CHORDS_URL, {
+    //     method: "POST",
+    //     headers: 
+    //     {
+    //         "Content-Type": "application/json",
+    //         Accept: "application/json"
+    //     },  
+    //     body: JSON.stringify({
+    //         "name": chordName,
+    //         "symbols": chordSymbols,
+    //         "structure": chordNotes,
+    //         // user? 
+    //     })
+    // })
+    // .then(function(response) {
+    //   return response.json();
+    // })
+    // .then(function(object) {
+    //     console.log(object);
+    // })
+    // .catch(function(error) {
+    // })
+}
 
 function createNewChord() {
     let newChord = document.getElementsByClassName('chord-input')
