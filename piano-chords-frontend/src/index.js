@@ -44,7 +44,6 @@ function createChordsFromJson(response) {
             for (const user of usersArray) {
                 if (chordUserId == (usersArray.indexOf(user) + 1)) {
                     chord.user(user)
-                    console.log(chord)
                 }
             }
         let selection = document.createElement('option')
@@ -54,14 +53,19 @@ function createChordsFromJson(response) {
         chordsArray.push(chord)
         drop.appendChild(selection)
     })
-
-    console.log(chordsArray)
 } 
 
 function createUserFromChord(data) {
-    let user = new User(data.attributes.username)
-    usersArray.push(user)
-    return user
+    // adds user if they do not already have a chord saved; prevents user duplication
+    let user = usersArray.find(user => user.username === data.attributes.username) 
+    if (!user) {
+        let newUser = new User(data.attributes.username)
+        usersArray.push(newUser)
+        return newUser
+    }    
+    else {
+        return user
+    }
 }
 
 class User {
