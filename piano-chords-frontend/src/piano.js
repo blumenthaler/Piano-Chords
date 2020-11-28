@@ -101,6 +101,11 @@ const pianoElement = document.getElementById("keyboard");
 const keyElements = document.getElementsByClassName("key")
 
 function playThePiano(event) {
+    let el = event.target
+    let klass = el.className
+    if (klass === "chord-input") {
+        return false;
+    }
     if (!event.repeat) {
         // get keycode from keypress, find corresponding note from codeNotes, find key element for that note
         let code = event.keyCode || event.which;
