@@ -40,49 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function createVisual() {
-    let container = document.getElementsByClassName("drop_cont")[0]
-    let form = document.createElement("form")
-    form.className = "new-user-chord-form"
-    container.appendChild(form)
-
-    let inputs = []
-    let nameInput = document.createElement('input')
-    nameInput.setAttribute("name", "name")
-    nameInput.setAttribute("placeholder", "Enter Chord Name")
-    inputs.push(nameInput)
-
-    let symbolsInput = document.createElement('input')
-    symbolsInput.setAttribute('name', 'symbols')
-    symbolsInput.setAttribute("placeholder", "Enter Chord Symbol(s) (i.e. for Minor 7: m7, -7)")
-    inputs.push(symbolsInput)
-
-    let notesInput = document.createElement('input')
-    notesInput.setAttribute('name', 'notes')
-    // Be wary: All entered Flats must be converted to enharmonic Sharps (Eb => D#, Bb => A#)
-    notesInput.setAttribute('placeholder', 'Enter Note Names (for C Minor 7: C, Eb, G, Bb)')
-    inputs.push(notesInput)
-
-    let usernameInput = document.createElement('input')
-    usernameInput.setAttribute('name', 'username')
-    usernameInput.setAttribute('placeholder', 'Enter your name')
-    inputs.push(usernameInput)
-
-    inputs.forEach(input => {
-        input.setAttribute("value", "")
-        input.setAttribute("class", "chord-input")
-        input.setAttribute("type", "text")
-        form.appendChild(input)
-        console.log(form)
-    })
-
-    let submitChord = document.createElement('input')
-    submitChord.setAttribute('type', 'submit')
-    submitChord.setAttribute('name', 'submit')
-    submitChord.setAttribute('value', 'Submit Chord')
-    submitChord.setAttribute('class', 'submit')
-    form.appendChild(submitChord)
-
-  
+    generateChordForm();
     for (i = 0; i < codeNotes.length; i++) {
         let key = document.createElement('div')
         let label = document.createElement('label')
