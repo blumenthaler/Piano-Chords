@@ -146,15 +146,43 @@ function submitNewChord(form) {
     let dataName = inputs[0].value // "C Major"
     let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
-    let username = inputs[3].value // "username"
-    submitUser(username);
+    let chordUsername = inputs[3].value // "chord username"
+ 
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
     let chordSymbols = findChordSymbols(dataSymbols)
-    console.log(chordName)
-    console.log(chordSymbols)
-    console.log(chordStructure)
-    console.log(username) 
+    let chord = new Chord(chordName, chordStructure, chordSymbols)
+    let maybeUser = usersArray.find(user => user.username === chordUsername)
+    if (!maybeUser) {
+        let newUser = []
+        let data = {
+            "username": chordUsername
+        }
+        return fetch(USERS_URL, {
+                method: "POST",
+                headers: 
+                {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },  
+                body: JSON.stringify(data)
+            })
+            .then(function(response) {
+              return response.json();
+            })
+            .then(function(object) {
+              let new = makeUserFromJSON(object);
+              return chord.user(newUser)
+            })
+            .catch(function(error) {
+            })
+    }
+    else {
+        chord.user(maybeUser)
+    }
+    
+    // console.log(chord)
+    // console.log(chord.user)
     // return fetch(CHORDS_URL, {
     //     method: "POST",
     //     headers: 
@@ -180,29 +208,17 @@ function submitNewChord(form) {
 }
 
 function  submitUser(username) {
-        // use fetch/post for this,
+    // use fetch/post for this,
     // then re-render users w/ another fetch,
     // then create instance of js user class & add to js usersArray
-    let data = {
-        "username": username
-    }
-    return fetch(USERS_URL, {
-            method: "POST",
-            headers: 
-            {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },  
-            body: JSON.stringify(data)
-        })
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(object) {
-            console.log(object);
-        })
-        .catch(function(error) {
-        })
+    
+}
+
+function makeUserFromJSON(data) {
+    let user = new User(data.username)
+    usersArray.push(user)
+    // console.log(user)
+    return user
 }
 
 function findStructureFromNoteNames(notes) {
