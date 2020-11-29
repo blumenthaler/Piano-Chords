@@ -185,6 +185,7 @@ function unhighlightKey(element) {
 function getChordNotes(element) {
     let chord = findChord()
     let structure = chord.structure.split(", ").map(integer => parseInt(integer))
+    // console.log(structure)
     let startNote = codeNotes[element.id.split("_")[0]]
     // starting at the start note, return they key elements for each note in structure (chord)
     let index = codeNotes.indexOf(startNote) 
