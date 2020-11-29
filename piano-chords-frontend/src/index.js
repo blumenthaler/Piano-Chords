@@ -148,7 +148,7 @@ function submitNewChord(form) {
     let username = inputs[3].value // "username"
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
-    let chordSymbols = findChordSymbols(dataSymbols, chordNotes)
+    let chordSymbols = findChordSymbols(dataSymbols)
     console.log(chordName)
     console.log(chordSymbols)
     console.log(chordStructure)
@@ -249,7 +249,7 @@ function findChordNameWithoutNote(notes, name) {
     return newName.join(" ")
 }
 
-function findChordSymbols(symbols, notes) {
+function findChordSymbols(symbols) {
     let splitSymbols = symbols.split(", ")
     let newSymbols = []
     for (let symbolArr of splitSymbols) {
@@ -258,11 +258,9 @@ function findChordSymbols(symbols, notes) {
             symbol.shift()
             newSymbols.push(symbol)
         }
-        else if ( notes.includes(symbolArr.charAt(0)) ) {
-            let symbol = symbolArr.split("")
-            symbol.shift()
-            let joined = symbol.join("")
-            newSymbols.push(joined)
+        else {
+            let symbol = symbolArr.slice(1)
+            newSymbols.push(symbol)
         }
     }
     return newSymbols.join(", ")
