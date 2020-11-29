@@ -34,7 +34,7 @@ function createChordsFromJson(response) {
     let users = response.included
     let chords = response.data
     // make sure this pulls from const usersArray (not sure what the point of chordsUsers is?)
-    let chordsUsers = users.map(userData => createUserFromChord(userData))
+    let chordsUsers = users.map(userData => addUserFromChord(userData))
     chords.forEach(chordData => {
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
@@ -56,11 +56,8 @@ function createChordsFromJson(response) {
     })
 } 
 
-function createUserFromChord(data) {
+function addUserFromChord(data) {
     // adds user if they do not already have a chord saved; prevents user duplication
-    // use fetch/post for this,
-    // then re-render users w/ another fetch,
-    // then create instance of js user class & add to js usersArray
     let user = usersArray.find(user => user.username === data.attributes.username) 
     if (!user) {
         let newUser = new User(data.attributes.username)
@@ -150,6 +147,7 @@ function submitNewChord(form) {
     let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
     let username = inputs[3].value // "username"
+    submitUser(username);
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
     let chordSymbols = findChordSymbols(dataSymbols)
@@ -179,6 +177,32 @@ function submitNewChord(form) {
     // })
     // .catch(function(error) {
     // })
+}
+
+function  submitUser(username) {
+        // use fetch/post for this,
+    // then re-render users w/ another fetch,
+    // then create instance of js user class & add to js usersArray
+    let data = {
+        "username": username
+    }
+    return fetch(USERS_URL, {
+            method: "POST",
+            headers: 
+            {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },  
+            body: JSON.stringify(data)
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(object) {
+            console.log(object);
+        })
+        .catch(function(error) {
+        })
 }
 
 function findStructureFromNoteNames(notes) {
