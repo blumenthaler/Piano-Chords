@@ -35,7 +35,6 @@ function createChordsFromJson(response) {
     let chords = response.data
     let chordsUsers = users.map(userData => createUserFromChord(userData))
     chords.forEach(chordData => {
-        // console.log(chordData)
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
         let structure = chordData.attributes.structure
@@ -186,14 +185,30 @@ function findStructureFromNoteNames(notes) {
         let nonflat = checkNoteNameForFlats(name)
         newArray.push(checkNoteNameForDoubleSharps(nonflat))
     }
-    let codes = newArray.map(noteName => codeNotes.find(el => el[0] === noteName))
-    console.log(codes)
+    let notesByName = []
+    newArray.forEach(note => {
+        let filtered = codeNotes.filter(el => el[0] === note)
+        notesByName.push(filtered)
+    })
+    let actual = []
+    notesByName.forEach(filter => {
+        if (notesByName.indexOf(filter) == 0){
+            actual.push(filter[0])
+        }
+        else {
+            for (i = 0; i < filter.length; i++) {
+                let last = actual[actual.length - 1]
+                let codeIndexLast = codeNotes.indexOf(codeNotes.find(el => el.join() === last.join()))
+                let index = codeNotes.indexOf(codeNotes.find(el => el.join() === filter[i].join()))
+                if (codeIndexLast < index) {
+                    actual.push(filter[i])
+                    break;
+                }
+            }
+        }
+    })
     let structure = []
-    for (i = 0; i < codeNotes.length; i++) {
-        if ( codes.includes(codeNotes[i]) )
-            structure.push(i)
-    }
-    console.log(structure)
+    actual.forEach(code => structure.push(codeNotes.indexOf(codeNotes.find(el => el.join() === code.join()))))
     let adjust = structure.map(int => int - structure[0])
     return adjust.join(", ")
 }
