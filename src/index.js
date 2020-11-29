@@ -33,6 +33,7 @@ const usersArray = []
 function createChordsFromJson(response) {
     let users = response.included
     let chords = response.data
+    // make sure this pulls from const usersArray (not sure what the point of chordsUsers is?)
     let chordsUsers = users.map(userData => createUserFromChord(userData))
     chords.forEach(chordData => {
         let chordUserId = chordData.relationships.user.data.id
@@ -57,6 +58,9 @@ function createChordsFromJson(response) {
 
 function createUserFromChord(data) {
     // adds user if they do not already have a chord saved; prevents user duplication
+    // use fetch/post for this,
+    // then re-render users w/ another fetch,
+    // then create instance of js user class & add to js usersArray
     let user = usersArray.find(user => user.username === data.attributes.username) 
     if (!user) {
         let newUser = new User(data.attributes.username)
@@ -152,8 +156,7 @@ function submitNewChord(form) {
     console.log(chordName)
     console.log(chordSymbols)
     console.log(chordStructure)
-    console.log(username)
-}   
+    console.log(username) 
     // return fetch(CHORDS_URL, {
     //     method: "POST",
     //     headers: 
@@ -176,7 +179,7 @@ function submitNewChord(form) {
     // })
     // .catch(function(error) {
     // })
-// }
+}
 
 function findStructureFromNoteNames(notes) {
     let notesArr = notes.split(", ")
