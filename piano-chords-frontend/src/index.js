@@ -246,6 +246,9 @@ function findChordNameWithoutNote(notes, name) {
             newName.push(el)
         }
     }
+    if (newName.join() === splitName.join()) {
+        newName.shift()
+    }
     return newName.join(" ")
 }
 
