@@ -170,11 +170,16 @@ function displayCorrectKey(element) {
 }
 
 function stopHighlight(event) {
-    let code = event.keyCode || event.which;
-    let find = codeNotes.find(element => element[2] === code)
-    if (!!find) {
-        let element = findKeyElementFromCodeNotes(find);
-        unhighlight(element);
+    let element = event.target
+    let klass = element.className
+    // console.log(klass)
+    if (klass !== "chord-input") {
+        let code = event.keyCode || event.which;
+        let find = codeNotes.find(element => element[2] === code)
+        if (!!find) {
+            let element = findKeyElementFromCodeNotes(find);
+            unhighlight(element);
+        }
     }
 }
 
