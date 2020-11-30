@@ -117,10 +117,16 @@ function showChords() {
 }
 
 function generateChordForm() {
-    let container = document.getElementsByClassName("drop_cont")[0]
+    let container = document.getElementsByClassName("chord_form_container")[0]
     let form = document.createElement("form")
     form.className = "new-user-chord-form"
     container.appendChild(form)
+
+    let prompt = document.createElement('div')
+    prompt.className = "dropdown_content"
+    prompt.setAttribute('id', 'form_prompt')
+    prompt.innerText = "Not seeing a chord you know? Add it!"
+    container.appendChild(prompt)
 
     let inputs = []
     let nameInput = document.createElement('input')
