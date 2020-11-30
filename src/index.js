@@ -37,7 +37,6 @@ function createChordsFromJson(response) {
     let users = response.included
     let chords = response.data
     users.forEach(userData => addUserObjectByName(userData.attributes.username))
-    console.log(usersArray)
     chords.forEach(chordData => {
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
@@ -66,7 +65,6 @@ function addUserObjectByName(name) {
 }
 
 function createChordOptionElement(name) {
-    console.log(name)
     let selection = document.createElement('option')
     selection.innerText = name;
     selection.className = "chord_select"
