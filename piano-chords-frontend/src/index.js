@@ -154,7 +154,6 @@ function submitNewChord(form) {
     let chord = new Chord(chordName, chordStructure, chordSymbols)
     let maybeUser = usersArray.find(user => user.username === chordUsername)
     if (!maybeUser) {
-        let newUser = []
         let data = {
             "username": chordUsername
         }
@@ -167,12 +166,34 @@ function submitNewChord(form) {
                 },  
                 body: JSON.stringify(data)
             })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(object) {
+            let newUser = makeUserFromJSON(object);
+            chord.user(newUser)
+            let userId = ((usersArray.indexOf(usersArray[usersArray.length - 1])) + 1).toString()
+            let obj = {
+                "name": chordName,
+                "symbols": chordSymbols,
+                "structure": chordStructure,
+                "user_id": userId
+            }
+            return fetch(CHORDS_URL, {
+                method: "POST",
+                headers: 
+                {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },  
+                body: JSON.stringify(obj)
+                }
+            )})
             .then(function(response) {
               return response.json();
             })
             .then(function(object) {
-              let new = makeUserFromJSON(object);
-              return chord.user(newUser)
+                console.log(object);
             })
             .catch(function(error) {
             })
@@ -180,44 +201,22 @@ function submitNewChord(form) {
     else {
         chord.user(maybeUser)
     }
-    
-    // console.log(chord)
-    // console.log(chord.user)
-    // return fetch(CHORDS_URL, {
-    //     method: "POST",
-    //     headers: 
-    //     {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json"
-    //     },  
-    //     body: JSON.stringify({
-    //         "name": chordName,
-    //         "symbols": chordSymbols,
-    //         "structure": chordStructure,
-    //         // user? 
-    //     })
-    // })
-    // .then(function(response) {
-    //   return response.json();
-    // })
-    // .then(function(object) {
-    //     console.log(object);
-    // })
-    // .catch(function(error) {
-    // })
 }
 
-function  submitUser(username) {
-    // use fetch/post for this,
-    // then re-render users w/ another fetch,
-    // then create instance of js user class & add to js usersArray
+// function createNewChord(data) {
+//     return 
+// }
+
+// function  submitUser(username) {
+//     // use fetch/post for this,
+//     // then re-render users w/ another fetch,
+//     // then create instance of js user class & add to js usersArray
     
-}
+// }
 
 function makeUserFromJSON(data) {
     let user = new User(data.username)
     usersArray.push(user)
-    // console.log(user)
     return user
 }
 
