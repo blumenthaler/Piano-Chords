@@ -3,7 +3,7 @@ const USERS_URL = `${BACKEND_URL}/users`
 const CHORDS_URL = `${BACKEND_URL}/chords`
 const chordDropdown = document.createElement('div')
 chordDropdown.className = "chord"
-let dropContainer = document.getElementsByClassName('drop_cont')[0]
+const dropContainer = document.getElementsByClassName('drop_cont')[0]
 
 const drop = document.createElement('select')
 drop.setAttribute('id', 'chord dropdown')
