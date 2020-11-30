@@ -7,18 +7,21 @@
     <title>Document</title>
 </head>
 <body onkeydown="playThePiano(event)" onkeyup="stopHighlight(event)">
-    <div id="header_cont"><h1>Piano Chords</h1></div>
-    <div class="drop_cont"></div>
-    <div class="container">
-        <div id="keyboard">
+    <div class="wrapper">
+        <div class="child">
+            <div id="header_cont"><h1>Piano Chords</h1></div>
+            <div class="drop_cont"></div>
+                <div class="container">
+                    <div id="keyboard">
+                </div>
+            </div>
+            <div class="chord_form_container"></div>
         </div>
     </div>
-
-    <div class="chord_form_container"></div>
     <script type="application/javascript" src="src/audiosynth.js" charset="UTF-8"></script>
     <script type="application/javascript" src="src/index.js" charset="UTF-8"></script>
     <script type="application/javascript" src="src/piano.js" charset="UTF-8"></script>
-    
+
 </body>
 
 </html>

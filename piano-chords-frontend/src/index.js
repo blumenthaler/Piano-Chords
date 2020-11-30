@@ -123,7 +123,6 @@ function generateChordForm() {
     container.appendChild(form)
 
     let prompt = document.createElement('div')
-    prompt.className = "dropdown_content"
     prompt.setAttribute('id', 'form_prompt')
     prompt.innerText = "Not seeing a chord you know? Add it!"
     container.appendChild(prompt)
