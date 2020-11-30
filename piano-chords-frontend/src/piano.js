@@ -44,27 +44,28 @@ function createVisual() {
     generateChordForm();
     for (i = 0; i < codeNotes.length; i++) {
         let key = document.createElement('button')
-        let label = document.createElement('label')
+        // let label = document.createElement('label')
         let noteName = codeNotes[i][0]
-        label.innerText = codeNotes[i][3]
-        key.appendChild(label)
+        // label.innerText = codeNotes[i][3]
+        key.innerText = codeNotes[i][3]
+        // key.appendChild(label)
         key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${noteName}`)
-        label.setAttribute('for', `${key.id}`)
+        // label.setAttribute('for', `${key.id}`)
         // creates second label for Note Name; may want to refactor
-        let keyLabel = document.createElement('label')
-        keyLabel.innerText = noteName
-        keyLabel.className = "key_label"
-        keyLabel.setAttribute('id', `label_${key.id}`)
-        keyLabel.style.display = "none";
-        key.appendChild(keyLabel)
+        // let keyLabel = document.createElement('label')
+        // keyLabel.innerText = noteName
+        // keyLabel.className = "key_label"
+        // keyLabel.setAttribute('id', `label_${key.id}`)
+        // keyLabel.style.display = "none";
+        // key.appendChild(keyLabel)
 
         if (noteName.length === 2) {
             key.setAttribute("class", "key black")
-            label.className = "blackLabel"
+            // label.className = "blackLabel"
         }
         else {
             key.setAttribute("class", "key white")
-            label.className = "whiteLabel"
+            // label.className = "whiteLabel"
         }
         key.addEventListener("mouseover", function(event) {   
             if (chordMode) {
@@ -165,8 +166,8 @@ function displayCorrectKeys(keys) {
 
 function displayCorrectKey(element) {
     element.style.backgroundColor = "#D4E4BC"
-    let keyLabel = document.getElementById(`label_${element.id}`)
-    keyLabel.style.display = "inline"
+    // let keyLabel = document.getElementById(`label_${element.id}`)
+    // keyLabel.style.display = "inline"
 }
 
 function stopHighlight(event) {
@@ -214,8 +215,8 @@ function unhighlightKey(element) {
     else if (element.className === "key black") {
         element.style.backgroundColor = "black";
     }
-    let keyLabel = document.getElementById(`label_${element.id}`)
-    keyLabel.style.display = "none"
+    // let keyLabel = document.getElementById(`label_${element.id}`)
+    // keyLabel.style.display = "none"
 }
 
 function getChordNotes(element) {
