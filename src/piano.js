@@ -164,7 +164,7 @@ function displayCorrectKeys(keys) {
 }
 
 function displayCorrectKey(element) {
-    element.style.backgroundColor = "#FFBF46"
+    element.style.backgroundColor = "#D4E4BC"
     let keyLabel = document.getElementById(`label_${element.id}`)
     keyLabel.style.display = "inline"
 }
