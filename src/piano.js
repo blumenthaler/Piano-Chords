@@ -1,4 +1,4 @@
-let chordMode = true;
+let chordMode = false;
 let arpMode = true;
 const codeNotes = [
     ["C", 3, 81, "Q"],
