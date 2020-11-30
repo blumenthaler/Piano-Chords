@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function createVisual() {
     generateChordForm();
     for (i = 0; i < codeNotes.length; i++) {
-        let key = document.createElement('div')
+        let key = document.createElement('button')
         let label = document.createElement('label')
         let noteName = codeNotes[i][0]
         label.innerText = codeNotes[i][3]
@@ -211,7 +211,7 @@ function unhighlightKey(element) {
     if (element.className === "key white") {
         element.style.backgroundColor = "white";
     }
-    else {
+    else if (element.className === "key black") {
         element.style.backgroundColor = "black";
     }
     let keyLabel = document.getElementById(`label_${element.id}`)
