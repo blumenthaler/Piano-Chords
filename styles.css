@@ -98,6 +98,10 @@ h1, p {
     border-width: 0 1px;
 }
 
+.key:focus {
+    outline:0;
+}
+
 .black {
     width: 25px;
     height: 100px;
