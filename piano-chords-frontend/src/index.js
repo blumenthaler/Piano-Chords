@@ -33,8 +33,7 @@ const usersArray = []
 function createChordsFromJson(response) {
     let users = response.included
     let chords = response.data
-    // make sure this pulls from const usersArray (not sure what the point of chordsUsers is?)
-    let chordsUsers = users.map(userData => addUserFromChord(userData))
+    users.forEach(userData => findOrAddUserByName(userData.attributes.username))
     chords.forEach(chordData => {
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
@@ -47,26 +46,31 @@ function createChordsFromJson(response) {
                     chord.user(user)
                 }
             }
-        let selection = document.createElement('option')
-        selection.innerText = name;
-        selection.className = "chord_select"
-        selection.setAttribute('value', name)
+        createChordOptionElement(name)
         chordsArray.push(chord)
-        drop.appendChild(selection)
     })
 } 
 
-function addUserFromChord(data) {
+function findOrAddUserByName(username) {
     // adds user if they do not already have a chord saved; prevents user duplication
-    let user = usersArray.find(user => user.username === data.attributes.username) 
+    let user = usersArray.find(user => user.username === username) 
     if (!user) {
-        let newUser = new User(data.attributes.username)
+        let newUser = new User(username)
         usersArray.push(newUser)
         return newUser
     }    
     else {
         return user
     }
+}
+
+function createChordOptionElement(name) {
+    console.log(name)
+    let selection = document.createElement('option')
+    selection.innerText = name;
+    selection.className = "chord_select"
+    selection.setAttribute('value', name)
+    drop.appendChild(selection)
 }
 
 class User {
@@ -100,23 +104,23 @@ function generateChordForm() {
     let inputs = []
     let nameInput = document.createElement('input')
     nameInput.setAttribute("name", "name")
-    nameInput.setAttribute("placeholder", "Enter Chord Name")
+    nameInput.setAttribute("placeholder", "Chord Name (i.e. C Minor 7)")
     inputs.push(nameInput)
 
     let symbolsInput = document.createElement('input')
     symbolsInput.setAttribute('name', 'symbols')
-    symbolsInput.setAttribute("placeholder", "Enter Chord Symbol(s) (i.e. for Minor 7: m7, -7)")
+    symbolsInput.setAttribute("placeholder", "Chord Symbol(s) (i.e. Cm7, C-7)")
     inputs.push(symbolsInput)
 
     let notesInput = document.createElement('input')
     notesInput.setAttribute('name', 'notes')
     // Be wary: All entered Flats must be converted to enharmonic Sharps (Eb => D#, Bb => A#)
-    notesInput.setAttribute('placeholder', 'Enter Note Names (for C Minor 7: C, Eb, G, Bb)')
+    notesInput.setAttribute('placeholder', 'Notes (i.e. C, Eb, G, Bb)')
     inputs.push(notesInput)
 
     let usernameInput = document.createElement('input')
     usernameInput.setAttribute('name', 'username')
-    usernameInput.setAttribute('placeholder', 'Enter your name')
+    usernameInput.setAttribute('placeholder', 'Your Name')
     inputs.push(usernameInput)
 
     inputs.forEach(input => {
@@ -146,7 +150,7 @@ function submitNewChord(form) {
     let dataName = inputs[0].value // "C Major"
     let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
-    let chordUsername = inputs[3].value // "chord username"
+    let chordUsername = inputs[3].value // "username"
  
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
@@ -170,54 +174,45 @@ function submitNewChord(form) {
             return response.json();
         })
         .then(function(object) {
-            let newUser = makeUserFromJSON(object);
+            let newUser = findOrAddUserByName(object.username);
             chord.user(newUser)
-            let userId = ((usersArray.indexOf(usersArray[usersArray.length - 1])) + 1).toString()
-            let obj = {
-                "name": chordName,
-                "symbols": chordSymbols,
-                "structure": chordStructure,
-                "user_id": userId
-            }
-            return fetch(CHORDS_URL, {
-                method: "POST",
-                headers: 
-                {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },  
-                body: JSON.stringify(obj)
-                }
-            )})
-            .then(function(response) {
-              return response.json();
-            })
-            .then(function(object) {
-                console.log(object);
-            })
-            .catch(function(error) {
-            })
+            chordsArray.push(chord)
+            addChord(newUser, chord) 
+        })
     }
     else {
         chord.user(maybeUser)
+        chordsArray.push(chord)
+        addChord(maybeUser, chord)
     }
 }
 
-// function createNewChord(data) {
-//     return 
-// }
-
-// function  submitUser(username) {
-//     // use fetch/post for this,
-//     // then re-render users w/ another fetch,
-//     // then create instance of js user class & add to js usersArray
-    
-// }
-
-function makeUserFromJSON(data) {
-    let user = new User(data.username)
-    usersArray.push(user)
-    return user
+function addChord(user, chord) {
+        let userId = ((usersArray.indexOf(user)) + 1).toString()
+        let obj = {
+            "name": chord.name,
+            "symbols": chord.symbols,
+            "structure": chord.structure,
+            "user_id": userId
+        }
+        return fetch(CHORDS_URL, {
+            method: "POST",
+            headers: 
+            {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },  
+            body: JSON.stringify(obj)
+            }
+        )
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(object) {
+            return createChordOptionElement(object.name);
+        })
+        .catch(function(error) {
+        })
 }
 
 function findStructureFromNoteNames(notes) {
