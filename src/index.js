@@ -4,6 +4,7 @@ const CHORDS_URL = `${BACKEND_URL}/chords`
 const chordDropdown = document.createElement('div')
 chordDropdown.className = "chord"
 const dropContainer = document.getElementsByClassName('drop_cont')[0]
+const headerContainer = document.getElementById("header_cont")
 
 const drop = document.createElement('select')
 drop.setAttribute('id', 'chord dropdown')
@@ -22,6 +23,7 @@ dropContainer.appendChild(chordDropdown)
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Fetch - Chords Index
   fetch(CHORDS_URL)
   .then(response => response.json())
   .then(parsedResponse => {
