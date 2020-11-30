@@ -21,19 +21,23 @@ chordDropdown.appendChild(drop)
 dropContainer.appendChild(chordDropdown)
 
 
-fetch(CHORDS_URL)
+document.addEventListener("DOMContentLoaded", () => {
+  fetch(CHORDS_URL)
   .then(response => response.json())
   .then(parsedResponse => {
         createChordsFromJson(parsedResponse)
 });
+})
 
 const chordsArray = []
 const usersArray = []
 
+// upon loading, pre-existing chords from db (if any)
 function createChordsFromJson(response) {
     let users = response.included
     let chords = response.data
-    users.forEach(userData => findOrAddUserByName(userData.attributes.username))
+    users.forEach(userData => addUserObjectByName(userData.attributes.username))
+    console.log(usersArray)
     chords.forEach(chordData => {
         let chordUserId = chordData.relationships.user.data.id
         let name = chordData.attributes.name
@@ -51,17 +55,14 @@ function createChordsFromJson(response) {
     })
 } 
 
-function findOrAddUserByName(username) {
-    // adds user if they do not already have a chord saved; prevents user duplication
-    let user = usersArray.find(user => user.username === username) 
+function addUserObjectByName(name) {
+    let user = usersArray.find(user => user.username === name) 
     if (!user) {
-        let newUser = new User(username)
+        let newUser = new User(name)
         usersArray.push(newUser)
         return newUser
-    }    
-    else {
-        return user
     }
+    else {return user}
 }
 
 function createChordOptionElement(name) {
@@ -138,26 +139,33 @@ function generateChordForm() {
     submitChord.setAttribute('id', 'submit')
     submitChord.addEventListener('click', e => {
         e.preventDefault();
-        submitNewChord(e.target.form)
+        submitNewChordAndUser(e.target.form)
     }, false)
 
     form.appendChild(submitChord)
 }
 
-function submitNewChord(form) {
+// submits a new chord to db
+function submitNewChordAndUser(form) {
     let inputs = form.children
     // Example: "C Major"
     let dataName = inputs[0].value // "C Major"
     let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
     let chordUsername = inputs[3].value // "username"
- 
+    // fetch-ready attributes
     let chordStructure = findStructureFromNoteNames(chordNotes)
     let chordName = findChordNameWithoutNote(chordNotes, dataName);
     let chordSymbols = findChordSymbols(dataSymbols)
     let chord = new Chord(chordName, chordStructure, chordSymbols)
-    let maybeUser = usersArray.find(user => user.username === chordUsername)
-    if (!maybeUser) {
+
+    let user = usersArray.find(user => user.username === chordUsername) 
+    if (user) {
+        chord.user(user)
+        chordsArray.push(chord)
+        addChord(user, chord)
+    }    
+    else {
         let data = {
             "username": chordUsername
         }
@@ -174,21 +182,19 @@ function submitNewChord(form) {
             return response.json();
         })
         .then(function(object) {
-            let newUser = findOrAddUserByName(object.username);
+            let newUser = new User(object.username);
+            usersArray.push(newUser)
             chord.user(newUser)
             chordsArray.push(chord)
-            addChord(newUser, chord) 
+            addChord(newUser, chord)
         })
-    }
-    else {
-        chord.user(maybeUser)
-        chordsArray.push(chord)
-        addChord(maybeUser, chord)
+        
     }
 }
 
 function addChord(user, chord) {
         let userId = ((usersArray.indexOf(user)) + 1).toString()
+
         let obj = {
             "name": chord.name,
             "symbols": chord.symbols,
@@ -304,9 +310,4 @@ function findChordSymbols(symbols) {
         }
     }
     return newSymbols.join(", ")
-}
-
-function createNewChord() {
-    let newChord = document.getElementsByClassName('chord-input')
-    // console.log(newChord)
 }
