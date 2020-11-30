@@ -21,6 +21,26 @@ drop.selectedIndex = 0;
 chordDropdown.appendChild(drop)
 dropContainer.appendChild(chordDropdown)
 
+const chordModeToggle = document.createElement("input")
+chordModeToggle.className = "dropdown_content"
+chordModeToggle.setAttribute("type", "checkbox")
+chordModeToggle.setAttribute('id', 'chord_mode')
+chordModeToggle.addEventListener("change", function() {
+    if (this.checked) {
+        chordMode = true
+    }
+    else {
+        chordMode = false
+    }
+})
+const chordModeLabel = document.createElement('label')
+chordModeLabel.className = "dropdown_content"
+chordModeLabel.setAttribute('id', 'chord_mode_label')
+chordModeLabel.setAttribute('for', 'chord_mode')
+chordModeLabel.innerText = "Select for Chord Mode, Deselect for Keyboard Mode"
+dropContainer.appendChild(chordModeToggle)
+dropContainer.appendChild(chordModeLabel)
+
 
 document.addEventListener("DOMContentLoaded", () => {
     // Fetch - Chords Index
