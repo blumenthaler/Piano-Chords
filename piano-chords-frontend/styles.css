@@ -108,6 +108,81 @@ h1, p {
     align-items: center;
 }
 
+input[type="checkbox"] {
+    visibility: hidden;
+}
+
+input[type="checkbox"] + label:before {
+    content: "\00a0";
+    display: inline-block;
+    font: 16px/1em sans-serif;
+    height: 16px;
+    margin-right: 10px;
+    vertical-align: middle;
+    width: 16px;
+  }
+
+input[type="checkbox"]:checked + label:before {
+    background: #48233C;
+    color: #87bba2;
+    content: "\2713";
+    text-align: center;
+}
+
+input[type="checkbox"]:checked + label:after {
+    font-weight: bold;
+}
+  
+.chord_form_container {
+    height: 300px;
+    display: block;
+}
+
+#form_prompt {
+    position: relative;
+    bottom: 60px;
+    margin-bottom: 40px;
+    z-index: 2;
+}
+
+.chord-input {
+    position: relative;
+    top: 70px;
+    display: inline;
+    background-color: #48233C;
+    color: #87bba2;
+    border: none;
+    width: 200px;
+    font-size: 13px;
+    padding: 13px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-right: 5px;
+}
+
+.new_user_chord_form {
+    width: 350px;
+    margin-right: auto;
+    margin-left: auto;
+
+}
+
+#submit {
+    position: relative;
+    top: 70px;
+    background-color: #48233C;
+    color: #87bba2;
+    border: none;
+    min-width: 50px;
+    font-size: 13px;
+    padding: 13px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    cursor: pointer;
+}
+
 #chord_mode {
     margin-right: 0;
     margin-left: 10px;
