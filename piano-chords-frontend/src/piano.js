@@ -37,6 +37,7 @@ const codeNotes = [
 
 document.addEventListener("DOMContentLoaded", () => {
     createVisual();
+    createChordError
 })
 
 function createVisual() {
@@ -116,26 +117,34 @@ const keyElements = document.getElementsByClassName("key")
 function playThePiano(event) {
     let el = event.target
     let klass = el.className
-    if (klass === "chord-input") {
-        return false;
-    }
-    if (!event.repeat) {
+    let code = event.keyCode || event.which;
+    if ((klass !== "chord-input") && (!event.repeat)) { 
         // get keycode from keypress, find corresponding note from codeNotes, find key element for that note
-        let code = event.keyCode || event.which;
-        let noteArray = codeNotes.find(element => element[2] === code)
-        let noteElement = findKeyElementFromCodeNotes(noteArray);
-        // if chordMode, get all elements for that chord and play them
-        if (chordMode) {
-            let codes = getChordNotes(noteElement)
-            let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-            displayCorrectKeys(keys)
-            codes.forEach(code => playPianoFromKey(code[2]))
-        }
-    // if not chordMode, play single note
-        else {
-            displayCorrectKey(noteElement)
-            playPianoFromKey(code.toString());
-        }
+            let noteArray = codeNotes.find(element => element[2] === code)
+            if (!!noteArray) {
+                let noteElement = findKeyElementFromCodeNotes(noteArray);
+                // if chordMode, get all elements for that chord and play them
+                if (chordMode) {
+                    let codes = getChordNotes(noteElement)
+                    if (!codes) {
+                        let error = document.getElementById("error")
+                        if (!error) {
+                            createChordError()
+                        }
+                     }
+                    else {
+                        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                        displayCorrectKeys(keys)
+                        codes.forEach(code => playPianoFromKey(code[2]))
+                    }
+                }
+                // if not chordMode, play single note
+                else {
+                    displayCorrectKey(noteElement)
+                    playPianoFromKey(code.toString());
+                }
+            }
+        
     }
 }
 
@@ -163,8 +172,10 @@ function displayCorrectKey(element) {
 function stopHighlight(event) {
     let code = event.keyCode || event.which;
     let find = codeNotes.find(element => element[2] === code)
-    let element = findKeyElementFromCodeNotes(find);
-    unhighlight(element);
+    if (!!find) {
+        let element = findKeyElementFromCodeNotes(find);
+        unhighlight(element);
+    }
 }
 
 function unhighlight(element) {
@@ -280,6 +291,6 @@ function createChordError() {
     let error = document.createElement("h4")
     error.setAttribute("id", "error")
     error.innerText = "Please Select a Chord Type"
-    dropContainer.appendChild(error)
+    headerContainer.appendChild(error)
     return error
 }
