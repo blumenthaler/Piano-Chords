@@ -12,7 +12,7 @@ class ChordsController < ApplicationController
             name: params[:name],
             structure: params[:structure],
             symbols: params[:symbols],
-            user: User.find(params[:user_id])
+            user_id: params[:user_id]
         )
         render json: chord
     end
