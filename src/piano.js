@@ -68,8 +68,16 @@ function createVisual() {
         key.addEventListener("mouseover", function(event) {   
             if (chordMode) {
                 let codes = getChordNotes(event.target);
-                let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-                displayCorrectKeys(keys)
+                if (!codes) {
+                    let error = document.getElementById("error")
+                    if (!error) {
+                        createChordError()
+                    }
+                }
+                else {
+                    let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                    displayCorrectKeys(keys)
+                }
             }
             else {
                 displayCorrectKey(event.target)
@@ -79,13 +87,18 @@ function createVisual() {
             unhighlight(event.target)
         })
         key.addEventListener("mousedown", function(event){
-            // this kind of code repeats itself;
-            // should definitely refactor this, will make arpeggiate mode potentially easier
-            // i.e. if chordMode, playChordFromClick(keys) => if arpMode, set Timeout to play each note
             if (chordMode) {
                 let codes = getChordNotes(event.target);
-                let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-                keys.forEach(key => playPianoFromClick(key))
+                if (!codes) {
+                    let error = document.getElementById("error")
+                    if (!error) {
+                        createChordError()
+                    }
+                }
+                else {
+                    let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                    keys.forEach(key => playPianoFromClick(key))
+                }
             }
             else {
                 playPianoFromClick(event.target);
@@ -157,8 +170,16 @@ function stopHighlight(event) {
 function unhighlight(element) {
     if (chordMode) {
         let codes = getChordNotes(element);
-        let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-        unhighlightKeys(keys)
+        if (!codes) {
+            let error = document.getElementById("error")
+            if (!error) {
+                createChordError()
+            }
+        }
+        else {
+            let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+            unhighlightKeys(keys)
+        }
     }
     else {
         unhighlightKey(element)
@@ -184,23 +205,45 @@ function unhighlightKey(element) {
 
 function getChordNotes(element) {
     let chord = findChord()
-    let structure = chord.structure.split(", ").map(integer => parseInt(integer))
-    // console.log(structure)
-    let startNote = codeNotes[element.id.split("_")[0]]
-    // starting at the start note, return they key elements for each note in structure (chord)
-    let index = codeNotes.indexOf(startNote) 
-    let notesRange = codeNotes.slice(index, (index + (structure.reduce((a, b) => a + b, 0) + 1))) 
-    let codes = []
-    for (i = 0; i < structure.length; i++) {
-        codes.push(notesRange[structure[i]])
+    let existingError = document.getElementById("error")
+    if ((!chord) && (!existingError)){
+        createChordError()
     }
-    return codes
+    else if (!chord){
+        if (!existingError) {createChordError()}
+    }
+    else {
+        if (!!existingError) {
+            existingError.remove();
+        }
+        let structure = chord.structure.split(", ").map(integer => parseInt(integer))
+        let startNote = codeNotes[element.id.split("_")[0]]
+        // starting at the start note, return they key elements for each note in structure (chord)
+        let index = codeNotes.indexOf(startNote) 
+        let notesRange = codeNotes.slice(index, (index + (structure.reduce((a, b) => a + b, 0) + 1))) 
+        let codes = []
+        for (i = 0; i < structure.length; i++) {
+            codes.push(notesRange[structure[i]])
+        }
+        return codes
+    }
 }
 
 function findChord() {
     let name = drop.value
-    let chord = chordsArray.find(chord => chord.name === name)
-    return chord
+    let error = document.getElementById("error")
+    if (name === "Select Chord Type") {
+        if (!error) {
+            createChordError()
+        }
+    }
+    else {
+        if (!!error) {
+            error.remove()
+        }
+        let chord = chordsArray.find(chord => chord.name === name)
+        return chord
+    }
 }
 
 function playPianoFromKey(keycode) {
@@ -231,4 +274,12 @@ function findKeyFromArray(keys, id) {
         }
     })
     return keyArr[0]
+}
+
+function createChordError() {
+    let error = document.createElement("h4")
+    error.setAttribute("id", "error")
+    error.innerText = "Please Select a Chord Type"
+    dropContainer.appendChild(error)
+    return error
 }
