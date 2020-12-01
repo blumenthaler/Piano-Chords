@@ -190,6 +190,11 @@ input[type="checkbox"]:checked + label:after {
     z-index: 1;
 }
 
+#success {
+    z-index: 3;
+    
+}
+
 #name {
     position: relative;
     right: 15px;
