@@ -45,19 +45,20 @@ function createVisual() {
     for (i = 0; i < codeNotes.length; i++) {
         let key = document.createElement('button')
         let noteName = codeNotes[i][0]
-        key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${noteName}`)
+        
+        key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${noteName}_key_${codeNotes[i][3]}`)
 
-        let keySpan = document.createElement('span')
+        // let keySpan = document.createElement('span')
         
-        key.innerText = codeNotes[i][3]
-        let nameSpan = document.createElement('span')
+        key.innerText = `\n\n\n${codeNotes[i][3]}`
+        // let nameSpan = document.createElement('span')
         
-        nameSpan.innerText = noteName
-        nameSpan.className = "key_label"
-        nameSpan.setAttribute('id', `label_${key.id}`)
-        nameSpan.style.display = "none";
-        key.appendChild(nameSpan)
-        key.appendChild(keySpan)
+        // nameSpan.innerText = noteName
+        // nameSpan.className = "key_label"
+        // nameSpan.setAttribute('id', `label_${key.id}`)
+        // nameSpan.style.display = "none";
+        // key.appendChild(nameSpan)
+        // key.appendChild(keySpan)
         
         // key.appendChild(label)
         // label.setAttribute('for', `${key.id}`)
@@ -69,17 +70,17 @@ function createVisual() {
         if (noteName.length === 2) {
             key.setAttribute("class", "key black")
             key.style.color = "white"
-            keySpan.className = "blackLabel"
-            nameSpan.className = "blackName"
-            keySpan.setAttribute("style", "color: white;")
-            nameSpan.setAttribute("style", "margin-bottom: -30px; color:white; display: none;")
+            // keySpan.className = "blackLabel"
+            // nameSpan.className = "blackName"
+            // keySpan.setAttribute("style", "color: white;")
+            // nameSpan.setAttribute("style", "margin-bottom: -30px; color:white; display: none;")
         }
         else {
             key.setAttribute("class", "key white")
-            keySpan.className = "whiteLabel"
-            nameSpan.className = "whiteName"
-            keySpan.setAttribute("style", "margin-top: -70px;")
-            nameSpan.setAttribute("style", "margin-bottom: -30px; display: none;")
+            // keySpan.className = "whiteLabel"
+            // nameSpan.className = "whiteName"
+            // keySpan.setAttribute("style", "margin-top: -70px;")
+            // nameSpan.setAttribute("style", "margin-bottom: -30px; display: none;")
         }
         key.addEventListener("mouseover", function(event) {   
             if (chordMode) {
@@ -179,19 +180,20 @@ function displayCorrectKeys(keys) {
 }
 
 function displayCorrectKey(element) {
-    if ((element.className === "key white") || (element.className === "whiteLabel") || (element.className === "whiteName")) {
+    let note = element.id.split("_")[4]
+    let key = element.id.split("_")[6]
+    if (element.className === "key white") {
         element.style.backgroundColor = "#D4E4BC"
+        console.log(element.id.split("_"))
+        element.innerText = (`\n\n\n${key}\n\n${note}`)
     }
-    else if ((element.className === "key black") || (element.className === "blackLabel") || (element.className === "blackName")) {
+    else if (element.className === "key black") {
         element.style.backgroundColor = "#D4E4BC"
         element.style.color = "black"
-        let labels = element.children
-        for (const label of labels) {
-            label.style.color = "black"
-        }
+        element.innerText = (`\n\n${key}\n\n${note}`)
     }
-    let keyLabel = document.getElementById(`label_${element.id}`)
-    keyLabel.style.display = "inline"
+    // let keyLabel = document.getElementById(`label_${element.id}`)
+    // keyLabel.style.display = "inline"
 }
 
 function stopHighlight(event) {
@@ -233,19 +235,16 @@ function unhighlightKeys(elements) {
 }
 
 function unhighlightKey(element) {
-    if ((element.className === "key white") || (element.className === "whiteLabel") || (element.className === "whiteName")) {
+    let key = element.id.split("_")[6]
+    element.innerText = `\n\n\n${key}`
+    if (element.className === "key white") {
         element.style.backgroundColor = "white";
+        
     }
-    else if ((element.className === "key black") || (element.className === "blackLabel") || (element.className === "blackName")) {
-        let labels = element.children
-        for (const label of labels) {
-            label.style.color = "white"
-        }
+    else if (element.className === "key black") {
         element.style.color = "white"
         element.style.backgroundColor = "black";
     }
-    let keyLabel = document.getElementById(`label_${element.id}`)
-    keyLabel.style.display = "none"
 }
 
 function getChordNotes(element) {
