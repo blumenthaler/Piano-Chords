@@ -129,6 +129,7 @@ function generateChordForm() {
 
     let infoLabel = document.createElement('div')
     infoLabel.setAttribute('class', 'chord_info')
+    infoLabel.setAttribute('id', 'info_label')
     infoLabel.innerText = "Chord: "
     container.appendChild(infoLabel)
 

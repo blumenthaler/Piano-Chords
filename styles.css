@@ -193,7 +193,7 @@ input[type="checkbox"]:checked + label:after {
 #info {
     position: relative;
     left: 30px;
-    display: none;
+    visibility: hidden;
 }
 
 .chord-input {
