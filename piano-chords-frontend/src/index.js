@@ -151,6 +151,12 @@ function generateChordForm() {
     notesInfo.innerText = "    "
     container.appendChild(notesInfo)
 
+    let userInfo = document.createElement('div')
+    userInfo.setAttribute('class', 'chord_info')
+    userInfo.setAttribute('id', 'user')
+    userInfo.innerText = "    "
+    container.appendChild(userInfo)
+
     let inputs = []
     let nameInput = document.createElement('input')
     nameInput.setAttribute("name", "name")
