@@ -127,9 +127,15 @@ function generateChordForm() {
     prompt.innerText = "Not seeing a chord you know? Add it!"
     container.appendChild(prompt)
 
+    let infoLabel = document.createElement('div')
+    infoLabel.setAttribute('class', 'chord_info')
+    infoLabel.innerText = "Chord: "
+    container.appendChild(infoLabel)
+
     let chordInfo = document.createElement('div')
-    chordInfo.setAttribute('id', 'chord_info')
-    chordInfo.innerText = "Chord: "
+    chordInfo.setAttribute('class', 'chord_info')
+    chordInfo.setAttribute('id', 'info')
+    chordInfo.innerText = "    "
     container.appendChild(chordInfo)
 
     let inputs = []
