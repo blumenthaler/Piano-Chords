@@ -48,8 +48,10 @@ function createVisual() {
         key.setAttribute('id', `${i}_oct_${codeNotes[i][1]}_note_${noteName}`)
 
         let keySpan = document.createElement('span')
-        keySpan.innerText = codeNotes[i][3]
+        
+        key.innerText = codeNotes[i][3]
         let nameSpan = document.createElement('span')
+        
         nameSpan.innerText = noteName
         nameSpan.className = "key_label"
         nameSpan.setAttribute('id', `label_${key.id}`)
@@ -62,19 +64,22 @@ function createVisual() {
         // creates second label for Note Name; may want to refactor
         // let keyLabel = document.createElement('label')
         // keyLabel.innerText = noteName
-        
-        
         // key.appendChild(keyLabel)
 
         if (noteName.length === 2) {
             key.setAttribute("class", "key black")
+            key.style.color = "white"
             keySpan.className = "blackLabel"
             nameSpan.className = "blackName"
+            keySpan.setAttribute("style", "color: white;")
+            nameSpan.setAttribute("style", "margin-bottom: -30px; color:white; display: none;")
         }
         else {
             key.setAttribute("class", "key white")
             keySpan.className = "whiteLabel"
             nameSpan.className = "whiteName"
+            keySpan.setAttribute("style", "margin-top: -70px;")
+            nameSpan.setAttribute("style", "margin-bottom: -30px; display: none;")
         }
         key.addEventListener("mouseover", function(event) {   
             if (chordMode) {
@@ -179,6 +184,7 @@ function displayCorrectKey(element) {
     }
     else if ((element.className === "key black") || (element.className === "blackLabel") || (element.className === "blackName")) {
         element.style.backgroundColor = "#D4E4BC"
+        element.style.color = "black"
         let labels = element.children
         for (const label of labels) {
             label.style.color = "black"
@@ -235,6 +241,7 @@ function unhighlightKey(element) {
         for (const label of labels) {
             label.style.color = "white"
         }
+        element.style.color = "white"
         element.style.backgroundColor = "black";
     }
     let keyLabel = document.getElementById(`label_${element.id}`)

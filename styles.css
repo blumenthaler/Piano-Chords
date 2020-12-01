@@ -96,6 +96,8 @@ h1, p {
 .key {
     border: solid #000;
     border-width: 0 1px;
+    display: flex;
+    flex-direction: column;
 }
 
 .key:focus {
