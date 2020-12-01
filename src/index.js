@@ -132,7 +132,7 @@ function generateChordForm() {
 
     let prompt = document.createElement('div')
     prompt.setAttribute('id', 'form_prompt')
-    prompt.innerText = "Not seeing a chord you know? Add it!"
+    prompt.innerText = "Not seeing a chord you know? Add it Below!"
     container.appendChild(prompt)
 
     let infoNameLabel = document.createElement('div')
