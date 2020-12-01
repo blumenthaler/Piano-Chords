@@ -172,11 +172,11 @@ input[type="checkbox"]:checked + label:after {
     z-index: 1;
 }
 
-#chord_info {
+.chord_info {
     position: relative;
     bottom: 60px;
     margin-bottom: 40px;
-    left: 15px;
+    left: 200px;
     z-index: 2;
     display: inline;
     background-color: #48233C;
@@ -188,6 +188,12 @@ input[type="checkbox"]:checked + label:after {
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+}
+
+#info {
+    position: relative;
+    left: 30px;
+    display: none;
 }
 
 .chord-input {
