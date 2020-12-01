@@ -135,17 +135,11 @@ function generateChordForm() {
     prompt.innerText = "Not seeing a chord you know? Add it!"
     container.appendChild(prompt)
 
-    let infoLabel = document.createElement('div')
-    infoLabel.setAttribute('class', 'chord_info')
-    infoLabel.setAttribute('id', 'info_label_or_name')
-    infoLabel.innerText = "Play a chord to see its info"
-    container.appendChild(infoLabel)
-
-    // let nameInfo = document.createElement('div')
-    // nameInfo.setAttribute('class', 'chord_info')
-    // nameInfo.setAttribute('id', 'name')
-    // nameInfo.innerText = "    "
-    // container.appendChild(nameInfo)
+    let infoNameLabel = document.createElement('div')
+    infoNameLabel.setAttribute('class', 'chord_info')
+    infoNameLabel.setAttribute('id', 'info_label_or_name')
+    infoNameLabel.innerText = "Play a chord to see its info"
+    container.appendChild(infoNameLabel)
 
     let symbolInfo = document.createElement('div')
     symbolInfo.setAttribute('class', 'chord_info')
