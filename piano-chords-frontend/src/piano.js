@@ -182,18 +182,14 @@ function displayCorrectKeys(keys) {
 function displayCorrectKey(element) {
     let note = element.id.split("_")[4]
     let key = element.id.split("_")[6]
+    element.style.color = "#D4E4BC"
+    element.style.backgroundColor = "#36558F"
     if (element.className === "key white") {
-        element.style.backgroundColor = "#D4E4BC"
-        console.log(element.id.split("_"))
         element.innerText = (`\n\n\n${key}\n\n${note}`)
     }
     else if (element.className === "key black") {
-        element.style.backgroundColor = "#D4E4BC"
-        element.style.color = "black"
         element.innerText = (`\n\n${key}\n\n${note}`)
     }
-    // let keyLabel = document.getElementById(`label_${element.id}`)
-    // keyLabel.style.display = "inline"
 }
 
 function stopHighlight(event) {
@@ -239,6 +235,7 @@ function unhighlightKey(element) {
     element.innerText = `\n\n\n${key}`
     if (element.className === "key white") {
         element.style.backgroundColor = "white";
+        element.style.color = "black"
         
     }
     else if (element.className === "key black") {
