@@ -5,6 +5,13 @@ const chordDropdown = document.createElement('div')
 chordDropdown.className = "chord"
 const dropContainer = document.getElementsByClassName('drop_cont')[0]
 const headerContainer = document.getElementById("header_cont")
+const wrap = document.getElementsByClassName('wrapper')[0]
+wrap.addEventListener('click', function(click) {
+    let success = document.getElementById('success')
+    if (!!success) {
+        success.style.visibility = "hidden"
+    }
+})
 
 const drop = document.createElement('select')
 drop.setAttribute('id', 'chord dropdown')
@@ -81,6 +88,7 @@ function addUserObjectByName(name) {
     if (!user) {
         let newUser = new User(name)
         usersArray.push(newUser)
+
         return newUser
     }
     else {return user}
@@ -270,6 +278,7 @@ function addChord(user, chord) {
           return response.json();
         })
         .then(function(object) {
+            successMessage(object.name)
             return createChordOptionElement(object.name);
         })
         .catch(function(error) {
@@ -365,4 +374,15 @@ function findChordSymbols(symbols) {
         }
     }
     return newSymbols.join(", ")
+}
+
+function successMessage(name) {
+    let existing = document.getElementById('success')
+    if (existing) {existing.remove()}
+    let element = document.createElement('h3')
+    element.className = "chord-input"
+    element.setAttribute('id', 'success')
+    element.innerText = `You added the ${name} chord!`
+    let container = document.getElementsByClassName('chord_form_container')[0]
+    container.appendChild(element)
 }
