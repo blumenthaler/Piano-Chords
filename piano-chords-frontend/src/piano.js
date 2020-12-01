@@ -136,12 +136,24 @@ function playThePiano(event) {
                             }
                         }
                         let chordSymbols = symbols.join(", ")
-                        let info = `Name: ${chordName}  //  Symbols: ${chordSymbols}  //  Notes: ${chordNotes}`
-                        let chordInfo = document.getElementById('info')
+                        // let info = `Name: ${chordName}  //  Symbols: ${chordSymbols}  //  Notes: ${chordNotes}`
+                        let nameInfo = document.getElementById('name')
+                        nameInfo.style.visibility = "visible"
+                        nameInfo.innerText = `Name:  ${chordName}`
+
+                        let symbolInfo = document.getElementById('symbols')
+                        symbolInfo.style.visibility = "visible"
+                        symbolInfo.innerText = `Symbols:  ${chordSymbols}`
+
+                        let notesInfo = document.getElementById('notes')
+                        notesInfo.style.visibility = "visible"
+                        notesInfo.innerText = `Notes:  ${chordNotes}`
+
+                        // let chordInfo = document.getElementById('info')
                         let infoLabel = document.getElementById('info_label')
                         infoLabel.style.visibility = "hidden"
-                        chordInfo.innerText = info
-                        chordInfo.style.visibility = "visible"
+                        // chordInfo.innerText = info
+                        // chordInfo.style.visibility = "visible"
                         
 
 

@@ -176,7 +176,7 @@ input[type="checkbox"]:checked + label:after {
     position: relative;
     bottom: 60px;
     margin-bottom: 40px;
-    left: 200px;
+    /* left: 200px; */
     z-index: 2;
     display: inline;
     background-color: #48233C;
@@ -190,10 +190,26 @@ input[type="checkbox"]:checked + label:after {
     z-index: 1;
 }
 
-#info {
+#name {
+    position: relative;
+    visibility: hidden;
+}
+
+#symbols {
+    position: relative;
+    left: 20px;
+    visibility: hidden;
+}
+
+#notes {
     position: relative;
     left: 30px;
     visibility: hidden;
+}
+
+#info_label {
+    position: relative;
+    left: 30px;
 }
 
 .chord-input {
