@@ -172,6 +172,24 @@ input[type="checkbox"]:checked + label:after {
     z-index: 1;
 }
 
+#chord_info {
+    position: relative;
+    bottom: 60px;
+    margin-bottom: 40px;
+    left: 15px;
+    z-index: 2;
+    display: inline;
+    background-color: #48233C;
+    color: #87bba2;
+    border: none;
+    min-width: 50px;
+    font-size: 15px;
+    padding: 13px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
 .chord-input {
     position: relative;
     top: 70px;
