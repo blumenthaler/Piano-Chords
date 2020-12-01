@@ -130,14 +130,26 @@ function generateChordForm() {
     let infoLabel = document.createElement('div')
     infoLabel.setAttribute('class', 'chord_info')
     infoLabel.setAttribute('id', 'info_label')
-    infoLabel.innerText = "Chord: "
+    infoLabel.innerText = "Play a chord to see its info"
     container.appendChild(infoLabel)
 
-    let chordInfo = document.createElement('div')
-    chordInfo.setAttribute('class', 'chord_info')
-    chordInfo.setAttribute('id', 'info')
-    chordInfo.innerText = "    "
-    container.appendChild(chordInfo)
+    let nameInfo = document.createElement('div')
+    nameInfo.setAttribute('class', 'chord_info')
+    nameInfo.setAttribute('id', 'name')
+    nameInfo.innerText = "    "
+    container.appendChild(nameInfo)
+
+    let symbolInfo = document.createElement('div')
+    symbolInfo.setAttribute('class', 'chord_info')
+    symbolInfo.setAttribute('id', 'symbols')
+    symbolInfo.innerText = "    "
+    container.appendChild(symbolInfo)
+
+    let notesInfo = document.createElement('div')
+    notesInfo.setAttribute('class', 'chord_info')
+    notesInfo.setAttribute('id', 'notes')
+    notesInfo.innerText = "    "
+    container.appendChild(notesInfo)
 
     let inputs = []
     let nameInput = document.createElement('input')
