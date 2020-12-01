@@ -65,6 +65,7 @@ function createVisual() {
                 }
                 else {
                     let keys = codes.map(code => findKeyElementFromCodeNotes(code))
+                    showChordInfo(keys)
                     displayCorrectKeys(keys)
                 }
             }
@@ -122,42 +123,7 @@ function playThePiano(event) {
                      }
                     else {
                         let keys = codes.map(code => findKeyElementFromCodeNotes(code))
-
-                        // chord info logic
-                        let notes = []
-                        for (const key of keys) {notes.push(key.id.split("_")[4])}
-                        let chordNotes = notes.join(", ")
-                        let chordObj = findChord()
-                        let chordName = notes[0] + " " + chordObj.name
-                        let symbols = []
-                        for (const symbol of chordObj.symbols.split(", ")) {
-                            if (symbol !== " ") {
-                                symbols.push(notes[0] + symbol)
-                            }
-                        }
-                        let chordSymbols = symbols.join(", ")
-                        // let info = `Name: ${chordName}  //  Symbols: ${chordSymbols}  //  Notes: ${chordNotes}`
-                        let nameInfo = document.getElementById('name')
-                        nameInfo.style.visibility = "visible"
-                        nameInfo.innerText = `Name:  ${chordName}`
-
-                        let symbolInfo = document.getElementById('symbols')
-                        symbolInfo.style.visibility = "visible"
-                        symbolInfo.innerText = `Symbols:  ${chordSymbols}`
-
-                        let notesInfo = document.getElementById('notes')
-                        notesInfo.style.visibility = "visible"
-                        notesInfo.innerText = `Notes:  ${chordNotes}`
-
-                        // let chordInfo = document.getElementById('info')
-                        let infoLabel = document.getElementById('info_label')
-                        infoLabel.style.visibility = "hidden"
-                        // chordInfo.innerText = info
-                        // chordInfo.style.visibility = "visible"
-                        
-
-
-
+                        showChordInfo(keys)
                         displayCorrectKeys(keys)
                         codes.forEach(code => playPianoFromKey(code[2]))
                     }
@@ -180,6 +146,32 @@ function findKeyElementFromCodeNotes(noteArray) {
         }
     }
 };
+
+function showChordInfo(keys) {
+    let notes = []
+    for (const key of keys) {notes.push(key.id.split("_")[4])}
+    let chordNotes = notes.join(", ")
+    let chordObj = findChord()
+    let chordName = notes[0] + " " + chordObj.name
+    let symbols = []
+    for (const symbol of chordObj.symbols.split(", ")) {
+        if (symbol !== " ") {
+            symbols.push(notes[0] + symbol)
+        }
+    }
+    let chordSymbols = symbols.join(", ")                        
+    let nameInfo = document.getElementById('name')
+    nameInfo.style.visibility = "visible"
+    nameInfo.innerText = `Name:  ${chordName}`
+    let symbolInfo = document.getElementById('symbols')
+    symbolInfo.style.visibility = "visible"
+    symbolInfo.innerText = `Symbols:  ${chordSymbols}`
+    let notesInfo = document.getElementById('notes')
+    notesInfo.style.visibility = "visible"
+    notesInfo.innerText = `Notes:  ${chordNotes}`
+    let infoLabel = document.getElementById('info_label')
+    infoLabel.style.visibility = "hidden"
+}
 
 function displayCorrectKeys(keys) {
     keys.forEach(el => {
