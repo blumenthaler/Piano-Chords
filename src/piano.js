@@ -160,9 +160,9 @@ function showChordInfo(keys) {
             symbols.push(notes[0] + symbol)
         }
     }
-    let chordSymbols = symbols.join(", ")                        
-    let nameInfo = document.getElementById('name')
-    nameInfo.style.visibility = "visible"
+    let chordSymbols = symbols.join(", ")        
+
+    let nameInfo = document.getElementById('info_label_or_name')
     nameInfo.innerText = `Name:  ${chordName}`
     let symbolInfo = document.getElementById('symbols')
     symbolInfo.style.visibility = "visible"
@@ -173,8 +173,6 @@ function showChordInfo(keys) {
     let userInfo = document.getElementById('user')
     userInfo.style.visibility = "visible"
     userInfo.innerText = `Posted by:  ${chordUser}`
-    let infoLabel = document.getElementById('info_label')
-    infoLabel.style.visibility = "hidden"
 }
 
 function displayCorrectKeys(keys) {
