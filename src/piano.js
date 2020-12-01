@@ -153,6 +153,7 @@ function showChordInfo(keys) {
     let chordNotes = notes.join(", ")
     let chordObj = findChord()
     let chordName = notes[0] + " " + chordObj.name
+    let chordUser = chordObj.user.username
     let symbols = []
     for (const symbol of chordObj.symbols.split(", ")) {
         if (symbol !== " ") {
@@ -169,6 +170,9 @@ function showChordInfo(keys) {
     let notesInfo = document.getElementById('notes')
     notesInfo.style.visibility = "visible"
     notesInfo.innerText = `Notes:  ${chordNotes}`
+    let userInfo = document.getElementById('user')
+    userInfo.style.visibility = "visible"
+    userInfo.innerText = `Posted by:  ${chordUser}`
     let infoLabel = document.getElementById('info_label')
     infoLabel.style.visibility = "hidden"
 }

@@ -192,19 +192,26 @@ input[type="checkbox"]:checked + label:after {
 
 #name {
     position: relative;
+    right: 15px;
     visibility: hidden;
 }
 
 #symbols {
     position: relative;
-    left: 20px;
+    right: 10px;
     visibility: hidden;
 }
 
 #notes {
     position: relative;
-    left: 30px;
+    right: 5px;
     visibility: hidden;
+}
+
+#user {
+    position: relative;
+    visibility: hidden;
+
 }
 
 #info_label {
