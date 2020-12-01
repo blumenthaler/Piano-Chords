@@ -10,7 +10,8 @@ This application (src/audiosynth.js) incorporates code from [audiosynth.js by ke
 
 ## Development
 
-Try this app in your local environment, clone and run following command from the piano-chords-backend directory:
+To try this app in your local environment, clone and run following command from the piano-chords-backend directory:
+
     $ bundle install
 
 To start up local server:
