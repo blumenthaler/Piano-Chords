@@ -158,8 +158,6 @@ input[type="checkbox"]:checked + label:after {
 #submit_error {
     position: relative;
     bottom: 60px;
-    /* margin-bottom: 40px; */
-    /* z-index: 2; */
     display: inline;
     background-color: #48233C;
     color: #87bba2;
@@ -192,7 +190,6 @@ input[type="checkbox"]:checked + label:after {
     position: relative;
     bottom: 60px;
     margin-bottom: 40px;
-    /* left: 200px; */
     z-index: 2;
     display: inline;
     background-color: #48233C;
