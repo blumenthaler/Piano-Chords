@@ -11,6 +11,7 @@ This application (src/audiosynth.js) incorporates code from [audiosynth.js by ke
 ## Development
 
 Backend: Rails API
+
 Frontend: HTML, CSS, JavaScript
 
 To try this app in your local environment, clone and run following command from the piano-chords-backend directory:
