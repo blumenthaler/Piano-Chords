@@ -258,14 +258,15 @@ function submitNewChordAndUser(form) {
 }
 
 function chordSubmitError() {
-    let error = document.createElement('h4')
-    let message = "Fields cannot be empty. Please try again."
-    error.innerText = message
-    error.setAttribute('id', 'submit_error')
-    let container = document.getElementsByClassName('chord_form_container')[0]
-    console.log(container)
-    container.prepend(error)
-    return message
+    const maybe = document.getElementById('submit_error')
+    if (!maybe) {
+        let error = document.createElement('h4')
+        let message = "Fields cannot be empty. Please try again."
+        error.innerText = message
+        error.setAttribute('id', 'submit_error')
+        let container = document.getElementsByClassName('chord_form_container')[0]
+        container.prepend(error)
+    }
 }
 
 function addChord(user, chord) {
