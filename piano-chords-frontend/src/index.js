@@ -8,8 +8,13 @@ const headerContainer = document.getElementById("header_cont")
 const wrap = document.getElementsByClassName('wrapper')[0]
 wrap.addEventListener('click', function(click) {
     let success = document.getElementById('success')
+    let submit = document.getElementById('submit')
+    let error = document.getElementById('submit_error')
     if (!!success) {
         success.style.visibility = "hidden"
+    }
+    if ((click.target !== submit) && (!!error)) {
+        error.remove()
     }
 })
 
@@ -210,13 +215,7 @@ function submitNewChordAndUser(form) {
     let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
     let chordUsername = inputs[3].value // "username"
-    console.log(!dataName)
-    console.log(!dataSymbols)
-    console.log(!chordNotes)
-    console.log(!!chordUsername)
-
     if ((!dataName) || (!dataSymbols) || (!chordNotes) || (!chordUsername)) {
-        console.log('hello this is an error notice me please!!')
         chordSubmitError()
     }
     else {
