@@ -210,23 +210,32 @@ function submitNewChordAndUser(form) {
     let dataSymbols = inputs[1].value // "CM"
     let chordNotes = inputs[2].value // "C, E, G"
     let chordUsername = inputs[3].value // "username"
-    // fetch-ready attributes
-    let chordStructure = findStructureFromNoteNames(chordNotes)
-    let chordName = findChordNameWithoutNote(chordNotes, dataName);
-    let chordSymbols = findChordSymbols(dataSymbols)
-    let chord = new Chord(chordName, chordStructure, chordSymbols)
+    console.log(!dataName)
+    console.log(!dataSymbols)
+    console.log(!chordNotes)
+    console.log(!!chordUsername)
 
-    let user = usersArray.find(user => user.username === chordUsername) 
-    if (user) {
-        chord.user(user)
-        chordsArray.push(chord)
-        addChord(user, chord)
-    }    
+    if ((!dataName) || (!dataSymbols) || (!chordNotes) || (!chordUsername)) {
+        console.log('hello this is an error notice me please!!')
+        chordSubmitError()
+    }
     else {
-        let data = {
-            "username": chordUsername
-        }
-        return fetch(USERS_URL, {
+        // fetch-ready attributes
+        let chordStructure = findStructureFromNoteNames(chordNotes)
+        let chordName = findChordNameWithoutNote(chordNotes, dataName);
+        let chordSymbols = findChordSymbols(dataSymbols)
+        let chord = new Chord(chordName, chordStructure, chordSymbols)
+        let user = usersArray.find(user => user.username === chordUsername) 
+        if (user) {
+            chord.user(user)
+            chordsArray.push(chord)
+            addChord(user, chord)
+        }    
+        else {
+            let data = {
+                "username": chordUsername
+            }
+            return fetch(USERS_URL, {
                 method: "POST",
                 headers: 
                 {
@@ -235,18 +244,29 @@ function submitNewChordAndUser(form) {
                 },  
                 body: JSON.stringify(data)
             })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(object) {
-            let newUser = new User(object.username);
-            usersArray.push(newUser)
-            chord.user(newUser)
-            chordsArray.push(chord)
-            addChord(newUser, chord)
-        })
-        
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(object) {
+                let newUser = new User(object.username);
+                usersArray.push(newUser)
+                chord.user(newUser)
+                chordsArray.push(chord)
+                addChord(newUser, chord)
+            })
+        }
     }
+}
+
+function chordSubmitError() {
+    let error = document.createElement('h4')
+    let message = "Fields cannot be empty. Please try again."
+    error.innerText = message
+    error.setAttribute('id', 'submit_error')
+    let container = document.getElementsByClassName('chord_form_container')[0]
+    console.log(container)
+    container.prepend(error)
+    return message
 }
 
 function addChord(user, chord) {
@@ -276,6 +296,7 @@ function addChord(user, chord) {
             return createChordOptionElement(object.name);
         })
         .catch(function(error) {
+            return chordSubmitError()
         })
 }
 
@@ -309,6 +330,7 @@ function findStructureFromNoteNames(notes) {
         }
     })
     let structure = []
+    
     actual.forEach(code => structure.push(codeNotes.indexOf(codeNotes.find(el => el.join() === code.join()))))
     let adjust = structure.map(int => int - structure[0])
     return adjust.join(", ")
