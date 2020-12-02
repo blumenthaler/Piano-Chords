@@ -296,6 +296,8 @@ function addChord(user, chord) {
             return createChordOptionElement(object.name);
         })
         .catch(function(error) {
+            chordsArray.pop();
+            console.log(error)
             return chordSubmitError()
         })
 }
