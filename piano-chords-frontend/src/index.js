@@ -68,14 +68,12 @@ const usersArray = []
 
 // upon loading, pre-existing chords from db (if any)
 function createChordsFromJson(response) {
-    let users = response.included
-    let chords = response.data
-    users.forEach(userData => addUserObjectByName(userData.attributes.username))
-    chords.forEach(chordData => {
+    let { data, included } = response
+    included.forEach(userData => addUserObjectByName(userData.attributes.username))
+    data.forEach(chordData => {
+        console.log(chordData)
         let chordUserId = chordData.relationships.user.data.id
-        let name = chordData.attributes.name
-        let structure = chordData.attributes.structure
-        let symbols = chordData.attributes.symbols
+        let { name, structure, symbols } = chordData.attributes
         let chord = new Chord(name, structure, symbols)   
         // assign user to each chord
             for (const user of usersArray) {
