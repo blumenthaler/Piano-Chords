@@ -41,7 +41,6 @@ const keyElements = document.getElementsByClassName("key")
 
 document.addEventListener("DOMContentLoaded", () => {
     createVisual();
-    createChordError
 })
 
 function createVisual() {
