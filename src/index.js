@@ -71,7 +71,6 @@ function createChordsFromJson(response) {
     let { data, included } = response
     included.forEach(userData => addUserObjectByName(userData.attributes.username))
     data.forEach(chordData => {
-        console.log(chordData)
         let chordUserId = chordData.relationships.user.data.id
         let { name, structure, symbols } = chordData.attributes
         let chord = new Chord(name, structure, symbols)   
@@ -302,16 +301,11 @@ function addChord(user, chord) {
 
 function findStructureFromNoteNames(notes) {
     let notesArr = notes.split(", ")
-    let newArray = []
-    for (const name of notesArr) {
+    let newArray = notesArr.map(name => {
         let nonflat = checkNoteNameForFlats(name)
-        newArray.push(checkNoteNameForDoubleSharps(nonflat))
-    }
-    let notesByName = []
-    newArray.forEach(note => {
-        let filtered = codeNotes.filter(el => el[0] === note)
-        notesByName.push(filtered)
+        return checkNoteNameForDoubleSharps(nonflat)
     })
+    let notesByName = newArray.map(note => codeNotes.filter(el => el[0] === note))
     let actual = []
     notesByName.forEach(filter => {
         if (notesByName.indexOf(filter) == 0){
@@ -329,9 +323,7 @@ function findStructureFromNoteNames(notes) {
             }
         }
     })
-    let structure = []
-    
-    actual.forEach(code => structure.push(codeNotes.indexOf(codeNotes.find(el => el.join() === code.join()))))
+    let structure = actual.map(code => codeNotes.indexOf(codeNotes.find(el => el.join() === code.join())))
     let adjust = structure.map(int => int - structure[0])
     return adjust.join(", ")
 }
