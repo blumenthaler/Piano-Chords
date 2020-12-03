@@ -34,6 +34,10 @@ const codeNotes = [
     ["F#", 5, 76, "L"],
     ["G", 5, 190, "."]
 ]
+let _audioSynth = new AudioSynth();
+let keysPressed = [];
+const pianoElement = document.getElementById("keyboard");
+const keyElements = document.getElementsByClassName("key")
 
 document.addEventListener("DOMContentLoaded", () => {
     createVisual();
@@ -97,11 +101,6 @@ function createVisual() {
         pianoElement.appendChild(key)
     };
 }
-
-let _audioSynth = new AudioSynth();
-let keysPressed = [];
-const pianoElement = document.getElementById("keyboard");
-const keyElements = document.getElementsByClassName("key")
 
 function playThePiano(event) {
     let el = event.target
