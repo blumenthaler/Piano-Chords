@@ -148,18 +148,26 @@ function findKeyElementFromCodeNotes(noteArray) {
 };
 
 function showChordInfo(keys) {
-    let notes = []
-    for (const key of keys) {notes.push(key.id.split("_")[4])}
+    let notes = keys.map(key => key.id.split("_")[4])
+    console.log(notes)
     let chordNotes = notes.join(", ")
     let chordObj = findChord()
     let chordName = notes[0] + " " + chordObj.name
     let chordUser = chordObj.user.username
-    let symbols = []
-    for (const symbol of chordObj.symbols.split(", ")) {
-        if (symbol !== " ") {
-            symbols.push(notes[0] + symbol)
+
+    let splitSymbols = chordObj.symbols.split(", ")
+    let symbols = splitSymbols.filter(symbol => {
+        if ((symbol != " ") || (symbol != "")) {
+            return notes[0] + symbol
+        }
+    })
+    if (symbols.includes("")) {
+        let index = symbols.indexOf("");
+        if (index > -1) {
+            symbols.splice(index, 1);
         }
     }
+
     let chordSymbols = symbols.join(", ")        
 
     let nameInfo = document.getElementById('info_label_or_name')
