@@ -22,6 +22,10 @@ class Chord {
         this.symbols = symbols;
     }
 
+    // all(instance) {
+    //     return [...instance]
+    // }
+    
     user(user) {
         this.user = user;
     }
@@ -77,14 +81,25 @@ document.addEventListener("DOMContentLoaded", () => {
   .then(response => response.json())
   .then(parsedResponse => {
         createChordsFromJson(parsedResponse)
-});
+    });
 })
 
 // upon loading, pre-existing chords from db (if any)
 function createChordsFromJson(response) {
     let { data, included } = response
     included.forEach(userData => addUserObjectByName(userData.attributes.username))
-    data.forEach(chordData => {
+    
+    // Sorting starts here
+    let sorting = data.map(chordData => chordData)
+    sorting.sort(function(a, b) {
+        let nameA = a.attributes.name.toUpperCase()
+        let nameB = b.attributes.name.toUpperCase()
+        if (nameA < nameB) {return -1}
+        if (nameA > nameB) {return 1}
+        return 0
+    })
+    
+    sorting.forEach(chordData => {
         let chordUserId = chordData.relationships.user.data.id
         let { name, structure, symbols } = chordData.attributes
         let chord = new Chord(name, structure, symbols)   
@@ -245,10 +260,34 @@ function submitNewChordAndUser(form) {
                 chord.user(newUser)
                 chordsArray.push(chord)
                 addChord(newUser, chord)
+                // sortDropdown()
             })
         }
     }
 }
+
+// function sortDropdown() {
+//     let options = document.getElementsByClassName("chord_select")
+    
+//     // console.log(options[0].innerText)
+//     let elements = []
+//     for (const key of options) {
+//         elements.push(key)
+//         // key.remove()
+//     }
+//     elements.sort(function(a, b) {
+//         let nameA = a.value.toUpperCase() 
+//         let nameB = b.value.toUpperCase()    
+//         if (nameA < nameB) {
+//             return -1;
+//         }
+//         if (nameB > nameA) {
+//             return 1;
+//         }
+//         return 0
+//     })
+//     console.log(elements)
+// }
 
 function chordSubmitError() {
     const maybe = document.getElementById('submit_error')
