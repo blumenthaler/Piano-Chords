@@ -6,6 +6,27 @@ chordDropdown.className = "chord"
 const dropContainer = document.getElementsByClassName('drop_cont')[0]
 const headerContainer = document.getElementById("header_cont")
 const wrap = document.getElementsByClassName('wrapper')[0]
+const chordsArray = []
+const usersArray = []
+
+class User {
+    constructor(username) {
+        this.username = username;
+    }
+}
+
+class Chord {
+    constructor(name, structure, symbols) {
+        this.name = name;
+        this.structure = structure;
+        this.symbols = symbols;
+    }
+
+    user(user) {
+        this.user = user;
+    }
+}
+
 wrap.addEventListener('click', function(click) {
     let success = document.getElementById('success')
     let submit = document.getElementById('submit')
@@ -38,12 +59,8 @@ chordModeToggle.className = "dropdown_content"
 chordModeToggle.setAttribute("type", "checkbox")
 chordModeToggle.setAttribute('id', 'chord_mode')
 chordModeToggle.addEventListener("change", function() {
-    if (this.checked) {
-        chordMode = true
-    }
-    else {
-        chordMode = false
-    }
+    if (this.checked) {chordMode = true}
+    else {chordMode = false}
 })
 const chordModeLabel = document.createElement('label')
 chordModeLabel.className = "dropdown_content"
@@ -62,9 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
         createChordsFromJson(parsedResponse)
 });
 })
-
-const chordsArray = []
-const usersArray = []
 
 // upon loading, pre-existing chords from db (if any)
 function createChordsFromJson(response) {
@@ -102,24 +116,6 @@ function createChordOptionElement(name) {
     selection.className = "chord_select"
     selection.setAttribute('value', name)
     drop.appendChild(selection)
-}
-
-class User {
-    constructor(username) {
-        this.username = username;
-    }
-}
-
-class Chord {
-    constructor(name, structure, symbols) {
-        this.name = name;
-        this.structure = structure;
-        this.symbols = symbols;
-    }
-
-    user(user) {
-        this.user = user;
-    }
 }
 
 function showChords() {
