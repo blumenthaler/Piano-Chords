@@ -355,12 +355,11 @@ function checkNoteNameForDoubleSharps(name) {
 function findChordNameWithoutNote(notes, name) {
     let splitNotes = notes.split(", ") // ["C", "E", "G"]
     let splitName = name.split(" ") // ["C", "Major"]
-    let newName = []
-    for (const el of splitName) {
+    let newName = splitName.filter(el => {
         if (!splitNotes.includes(el)) {
-            newName.push(el)
+            return el
         }
-    }
+    })
     if (newName.join() === splitName.join()) {
         newName.shift()
     }
