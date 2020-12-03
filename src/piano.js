@@ -149,7 +149,6 @@ function findKeyElementFromCodeNotes(noteArray) {
 
 function showChordInfo(keys) {
     let notes = keys.map(key => key.id.split("_")[4])
-    console.log(notes)
     let chordNotes = notes.join(", ")
     let chordObj = findChord()
     let chordName = notes[0] + " " + chordObj.name
@@ -235,9 +234,7 @@ function unhighlight(element) {
 }
 
 function unhighlightKeys(elements) {
-    elements.forEach(el => {
-        unhighlightKey(el)
-    })
+    elements.forEach( el => {unhighlightKey(el)} )
 }
 
 function unhighlightKey(element) {
