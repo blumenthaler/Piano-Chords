@@ -368,18 +368,16 @@ function findChordNameWithoutNote(notes, name) {
 
 function findChordSymbols(symbols) {
     let splitSymbols = symbols.split(", ")
-    let newSymbols = []
-    for (let symbolArr of splitSymbols) {
-        if (symbolArr.charAt(1) === "#") {
-            let symbol = symbolArr.split("#")
+    let newSymbols = splitSymbols.map(fullSymbol => {
+        if (fullSymbol.charAt(1) === "#") {
+            let symbol = fullSymbol.split("#")
             symbol.shift()
-            newSymbols.push(symbol)
+            return symbol[0]
         }
         else {
-            let symbol = symbolArr.slice(1)
-            newSymbols.push(symbol)
+            return fullSymbol.slice(1)
         }
-    }
+    })
     return newSymbols.join(", ")
 }
 
