@@ -152,21 +152,14 @@ function showChordInfo(keys) {
     let chordObj = findChord()
     let chordName = notes[0] + " " + chordObj.name
     let chordUser = chordObj.user.username
-
     let splitSymbols = chordObj.symbols.split(", ")
-    let symbols = splitSymbols.filter(symbol => {
+    let symbols = []
+    for (const symbol of splitSymbols) {
         if ((symbol != " ") || (symbol != "")) {
-            return notes[0] + symbol
-        }
-    })
-    if (symbols.includes("")) {
-        let index = symbols.indexOf("");
-        if (index > -1) {
-            symbols.splice(index, 1);
+            symbols.push(notes[0] + symbol)
         }
     }
-
-    let chordSymbols = symbols.join(", ")        
+    let chordSymbols = symbols.join(", ")     
 
     let nameInfo = document.getElementById('info_label_or_name')
     nameInfo.innerText = `Name:  ${chordName}`
