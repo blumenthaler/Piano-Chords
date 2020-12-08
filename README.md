@@ -10,7 +10,7 @@ This application (src/audiosynth.js) incorporates code from [audiosynth.js by ke
 
 ## Development
 
-Backend: Rails API
+Backend: Rails-API
 
 Frontend: HTML, CSS, JavaScript
 
