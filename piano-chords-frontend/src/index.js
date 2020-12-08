@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = 'https://piano-chords-api-1.herokuapp.com/';
 const USERS_URL = `${BACKEND_URL}/users`
 const CHORDS_URL = `${BACKEND_URL}/chords`
 const chordDropdown = document.createElement('div')
