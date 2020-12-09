@@ -1,5 +1,7 @@
 # Piano Chords
 
+See the app in action [here](https://blumenthaler.github.io/Piano-Chords/frontend/index.html)!
+
 ## Description
 
 Welcome to Piano Chords! This single-page application is a tool for learning piano chords and their notes.
