@@ -11,7 +11,17 @@ body {
     justify-content: center;
 }
 
-h1, p {
+h1 {
+    background-color: #48233C;
+    color: #87bba2;
+    border: none;
+    max-width: 390px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+} 
+
+p {
     color: #87bba2;
 }
 
@@ -31,6 +41,11 @@ h1, p {
 
 .chord_select:hover {
     background-color: #ddd;
+}
+
+.drop_cont {
+    position: relative;
+    top: 30px;
 }
 
 .dropdown_content {
@@ -165,6 +180,18 @@ input[type="checkbox"]:checked + label:after {
     min-width: 50px;
     font-size: 15px;
     padding: 13px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+#instructions_wrapper {
+    position: relative;
+    background-color: #48233C;
+    color: #87bba2;
+    border: none;
+    min-width: 50px;
+    font-size: 15px;
+    padding: 10px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
